@@ -1,7 +1,7 @@
 ---
 title : "CAN 2023 : La faille qui permettait d'acheter un billet de match à n'importe quel prix"
 date : 2024-01-19T09:49:04Z
-draft : true
+draft : false
 images: [/images/1.png]
 featuredImage: "/images/1.png"
 featuredImagePreview: "/images/1.png"
