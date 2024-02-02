@@ -1,0 +1,20 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Tous Posts - zalepentester | Blog</title>
+        <link>https://zalepentester.com/posts/</link>
+        <description>Tous Posts | zalepentester | Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>fr</language><managingEditor>info@zalepentester.com (Saliou Thiam)</managingEditor>
+            <webMaster>info@zalepentester.com (Saliou Thiam)</webMaster><lastBuildDate>Thu, 01 Feb 2024 09:21:51 &#43;0000</lastBuildDate><atom:link href="https://zalepentester.com/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Jenkins : Deux vulnérabilités critiques (CVE-2024-23897 - CVE-2024-23898) Exploitation &amp; Correctifs</title>
+    <link>https://zalepentester.com/jenkins_rce_cve-2024-23897_cve-2024-23898/</link>
+    <pubDate>Thu, 01 Feb 2024 09:21:51 &#43;0000</pubDate>
+    <author>Saliou Thiam</author>
+    <guid>https://zalepentester.com/jenkins_rce_cve-2024-23897_cve-2024-23898/</guid>
+    <description><![CDATA[<div class="featured-image">
+                <img src="/images/jenkins-rce.jpg" referrerpolicy="no-referrer">
+            </div>Introduction Les chercheurs en sécurité de SonarSource ont découvert deux failles de sécurité dans Jenkins : CVE-2024-23897 et CVE-2024-23898. Jenkins a été informé de la découverte de ces vulnérabilités le 13 novembre 2023.
+Deux vulnérabilités sont expliquées :
+𝗖𝗩𝗘-𝟮𝟬𝟮𝟰-𝟮𝟯𝟴𝟵𝟳 : C&rsquo;est une vulnérabilité qui permet à un attaquant non authentifié, et disposant de la permission &ldquo;overall/read&rdquo;, de lire les données des fichiers présents sur le serveur. Sans cette permission, il est possible de lire les premières lignes des fichiers.]]></description>
+</item>
+</channel>
+</rss>

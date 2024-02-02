@@ -1,0 +1,8 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Categories - Catégorie - zalepentester | Blog</title>
+        <link>https://zalepentester.com/categories/</link>
+        <description>Categories - Catégorie - zalepentester | Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>fr</language><managingEditor>info@zalepentester.com (Saliou Thiam)</managingEditor>
+            <webMaster>info@zalepentester.com (Saliou Thiam)</webMaster><atom:link href="https://zalepentester.com/categories/" rel="self" type="application/rss+xml" /></channel>
+</rss>
