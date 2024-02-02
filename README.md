@@ -1,2 +1,0 @@
-# Zalepentester-blog
- My blog
