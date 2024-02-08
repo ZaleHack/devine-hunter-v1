@@ -4,7 +4,17 @@
         <link>https://zalepentester.com/posts/</link>
         <description>Tous Posts | zalepentester | Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>fr</language><managingEditor>info@zalepentester.com (Saliou Thiam)</managingEditor>
-            <webMaster>info@zalepentester.com (Saliou Thiam)</webMaster><lastBuildDate>Thu, 01 Feb 2024 09:21:51 &#43;0000</lastBuildDate><atom:link href="https://zalepentester.com/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>info@zalepentester.com (Saliou Thiam)</webMaster><lastBuildDate>Thu, 08 Feb 2024 07:36:56 &#43;0000</lastBuildDate><atom:link href="https://zalepentester.com/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Evanti : 4 vulnérabilités critiques (CVE-2023-46805, CVE-2024-21887, CVE-2024-21888 et CVE-2024-2189). Exploitation &amp; Correctifs</title>
+    <link>https://zalepentester.com/4_vuln%C3%A9rabilit%C3%A9s_critiques_cve-2023-46805-cve-2024-21887-cve-2024-21888-et-cve-2024-2189/</link>
+    <pubDate>Thu, 08 Feb 2024 07:36:56 &#43;0000</pubDate>
+    <author>Saliou Thiam</author>
+    <guid>https://zalepentester.com/4_vuln%C3%A9rabilit%C3%A9s_critiques_cve-2023-46805-cve-2024-21887-cve-2024-21888-et-cve-2024-2189/</guid>
+    <description><![CDATA[<div class="featured-image">
+                <img src="/images/ivanti_exploit.jpg" referrerpolicy="no-referrer">
+            </div>Introduction Le 10 janvier 2024, Ivanti a émis un avis concernant deux vulnérabilités majeures touchant les appareils VPN Connect Secure, CVE-2023-46805 et CVE-2024-21887, permettant une exécution de code à distance non authentifiée. Peu après, des chercheurs ont signalé une exploitation active de ces vulnérabilités remontant à décembre 2023. Le 31 janvier 2024, Ivanti a révélé deux autres vulnérabilités importantes, CVE-2024-21888 et CVE-2024-21893, touchant à la fois Ivanti Connect Secure et Ivanti Policy Secure.]]></description>
+</item>
+<item>
     <title>Jenkins : Deux vulnérabilités critiques (CVE-2024-23897 - CVE-2024-23898) Exploitation &amp; Correctifs</title>
     <link>https://zalepentester.com/jenkins_rce_cve-2024-23897_cve-2024-23898/</link>
     <pubDate>Thu, 01 Feb 2024 09:21:51 &#43;0000</pubDate>
