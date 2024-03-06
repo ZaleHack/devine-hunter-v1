@@ -4,9 +4,20 @@
         <link>https://zalepentester.com/</link>
         <description>Blog de zalepentester</description>
         <generator>Hugo -- gohugo.io</generator><language>fr</language><managingEditor>info@zalepentester.com (Saliou Thiam)</managingEditor>
-            <webMaster>info@zalepentester.com (Saliou Thiam)</webMaster><lastBuildDate>Thu, 08 Feb 2024 07:36:56 &#43;0000</lastBuildDate>
+            <webMaster>info@zalepentester.com (Saliou Thiam)</webMaster><lastBuildDate>Sun, 18 Feb 2024 19:00:56 &#43;0000</lastBuildDate>
             <atom:link href="https://zalepentester.com/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Compromettre Microsoft Outlook via l&#39;ouverture d&#39;un simple Email  : CVE-2024-21413 (Exécution de code arbitraire)</title>
+    <link>https://zalepentester.com/cve-202421413_microsoft_outlook/</link>
+    <pubDate>Sun, 18 Feb 2024 19:00:56 &#43;0000</pubDate>
+    <author>Saliou Thiam</author>
+    <guid>https://zalepentester.com/cve-202421413_microsoft_outlook/</guid>
+    <description><![CDATA[<div class="featured-image">
+                <img src="/images/Outlook-CVE-2024-21413.jpg" referrerpolicy="no-referrer">
+            </div>Introduction CVE-2024-21413 baptisée MonikerLink est une vulnérabilité critique qui permet à un attaquant non authentifié de divulguer le condensat (hash) NTLM local et potentiellement une exécution de code arbitraire à distance. Son exploitation nécessite une intervention de l&rsquo;utilisateur.
+Avec un niveau de criticité de 9,8 sur (CVSS), elle représente l&rsquo;une des menaces les plus sérieuses récemment révélées. Cette vulnérabilité ouvre la porte à des cyberattaques sophistiquées, allant du vol de données au déploiement de rançongiciels à travers le réseau d&rsquo;une organisation.]]></description>
+</item>
+<item>
     <title>Evanti : 4 vulnérabilités critiques (CVE-2023-46805, CVE-2024-21887, CVE-2024-21888 et CVE-2024-2189). Exploitation &amp; Correctifs</title>
     <link>https://zalepentester.com/4_vulnerabilites_critiques_cve-2023-46805-cve-2024-21887-cve-2024-21888-et-cve-2024-2189/</link>
     <pubDate>Thu, 08 Feb 2024 07:36:56 &#43;0000</pubDate>

@@ -41,7 +41,7 @@ paginate = 12
 # google analytics code [UA-XXXXXXXX-X]
 googleAnalytics = ""
 # copyright description used only for seo schema
-copyright = "zalpentester 2024"
+copyright = "zalepentester 2024"
 
 # whether to use robots.txt
 enableRobotsTXT = true
@@ -199,7 +199,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
 
   # Social config about the author
   [params.social]
-    GitHub = ""
+    GitHub = "zalepentester"
     Linkedin = "saliouthiam"
     Twitter = "zalepentester"
     Instagram = ""
@@ -499,10 +499,10 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
 
   #  Analytics config
   [params.analytics]
-    enable = false
+    enable = true
     # Google Analytics
     [params.analytics.google]
-      id = ""
+      id = "G-0VHR6YTLQZ"
       # whether to anonymize IP
       anonymizeIP = true
     # Fathom Analytics
