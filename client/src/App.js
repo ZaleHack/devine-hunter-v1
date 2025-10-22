@@ -261,127 +261,166 @@ function App() {
       })
   }
 
-  return (
-    <div>
-    { loaded && <Modal 
-                  isOpen={noFqdns}
-                  style={{
-                    overlay: {
-                      backgroundColor: 'grey'
-                    },
-                    content: {
-                      height: '700px',
-                      width: '450px',
-                      margin: 'auto',
-                      backgroundColor: '#ECF0F1'
-                    }
-                  }}>
-      <AddFqdnModal fqdns={fqdns} setFqdns={setFqdns} setNoFqdns={setNoFqdns} />
-    </Modal> }
 
-    <nav className="p-1 pt-2 pb-2 navbar navbar-expand-lg bg-dark" style={{ overflow: 'auto', whiteSpace: 'nowrap' }} id="style-1">
-      <div className="container-fluid">
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              {/* Dropdown for selecting FQDN */}
-              <select
-                className="form-select dropdown-select mr-2"
-                value={activeTab}
-                onChange={handleDropdownChange}
-                aria-label="Select FQDN"
-              >
-                {fqdns.map((fqdn, index) => (
-                  <option key={index} value={index}>{fqdn.fqdn}</option>
-                ))}
-              </select>
-              {/* Add and Delete FQDN buttons */}
-              <button className="btn btn-success mr-2" onClick={addNewFqdn}>Add FQDN</button>
-              <button className="btn btn-danger" onClick={deleteFqdn}>Delete FQDN</button>
-              <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <input 
-                  type="checkbox" 
-                  checked={scanSingleDomain} 
-                  onChange={handleScanSingleDomainChange} 
-                  style={{ width: '20px', height: '20px', marginRight: '10px' }}
-                />
-                <span style={{ color: 'white' }}>Scan only selected domain</span>
-              </div>
-            </li>
-            <li className="nav-item ml-5">
-            <h3 style={{ color: 'white' }}>Data Export</h3>
-            <div class="form-group">
-            <label style={{ color: 'white' }}>
-              File Name:
-              <input
-                className="ml-2" 
-                type="text"
-                value={fileName}
-                onChange={(e) => setFileName(e.target.value)}
-              />
-            </label>
-            <button className="border border-info btn btn-primary text-secondary ml-2" onClick={exportData}>Export Data</button>
-            </div>
-            </li>
-            <li className="nav-item ml-5">
-            <div>
-              <label style={{ color: 'white' }}>
-                <h3 style={{ color: 'white' }}>Data Import</h3>
-                <input class="form-control" type="file" accept=".json" id="fileInput" />
-              </label>
-              <button className="border border-info btn btn-primary text-secondary ml-2" onClick={handleButtonClick}>Process</button>
-              <button className="border border-info btn btn-primary text-secondary ml-2" onClick={handleUnloadButtonClick}>Unload</button>
-            </div>
-            </li>
-            <li>
-              <button className="border border-info btn btn-primary text-secondary m-4 p-3 ml-5" onClick={handleCollectScreenshotsButton}>Collect Screenshots</button>
-            </li>
-          </ul>
+return (
+  <div className="app-shell">
+    {loaded && (
+      <Modal
+        isOpen={noFqdns}
+        style={{
+          overlay: {
+            backgroundColor: 'rgba(31, 31, 31, 0.55)'
+          },
+          content: {
+            height: '700px',
+            width: '520px',
+            margin: 'auto',
+            borderRadius: '24px',
+            backgroundColor: '#ffffff',
+            border: 'none',
+            boxShadow: '0 24px 60px rgba(183, 28, 28, 0.25)'
+          }
+        }}
+      >
+        <AddFqdnModal fqdns={fqdns} setFqdns={setFqdns} setNoFqdns={setNoFqdns} />
+      </Modal>
+    )}
+
+    <header className="app-header">
+      <div className="brand">
+        <div className="brand-logo">DH</div>
+        <div className="brand-text">
+          <h1>Divine Hunter</h1>
+          <p>Plateforme française de gestion des surfaces d'attaque</p>
         </div>
       </div>
-    </nav>
-
-
-
-
-    <div className="pl-3 p-2 navbar navbar-expand-lg bg-dark" style={{ overflow: 'auto', whiteSpace: 'nowrap' }}>
-      <span style={{ display: 'block', padding: '15px', color: '#D9D9D9', width: '250px'}}>
-          Core Module: {coreModule}<br></br>
-          Target Domain: {scanDomain}
+      <span className={`status-pill ${scanRunning ? 'active' : ''}`}>
+        {scanRunning ? 'Analyse en cours' : 'En veille'}
       </span>
-      <span style={{ display: 'block', padding: '15px', color: '#D9D9D9', width: '350px'}}>
-          Scan Step: {scanStep} / {scanComplete}<br></br>
-          Current Step: {scanStepName}
+    </header>
+
+    <section className="control-panel">
+      <div className="control-card">
+        <h3>Gestion des domaines</h3>
+        <div className="control-row">
+          <select
+            className="form-select dropdown-select"
+            value={activeTab}
+            onChange={handleDropdownChange}
+            aria-label="Sélectionner un FQDN"
+          >
+            {fqdns.map((fqdn, index) => (
+              <option key={index} value={index}>{fqdn.fqdn}</option>
+            ))}
+          </select>
+          <button className="btn btn-primary" onClick={addNewFqdn}>Ajouter un FQDN</button>
+          <button className="btn btn-light text-danger shadow-sm" onClick={deleteFqdn}>Supprimer le FQDN</button>
+        </div>
+        <div className="toggle">
+          <input
+            type="checkbox"
+            checked={scanSingleDomain}
+            onChange={handleScanSingleDomainChange}
+            id="single-domain"
+          />
+          <label htmlFor="single-domain">Analyser uniquement le domaine sélectionné</label>
+        </div>
+      </div>
+
+      <div className="control-card">
+        <h3>Export des données</h3>
+        <div className="control-row">
+          <label className="mb-0">
+            Nom du fichier
+            <input
+              className="ms-2"
+              type="text"
+              value={fileName}
+              onChange={(e) => setFileName(e.target.value)}
+            />
+          </label>
+          <button className="btn btn-primary" onClick={exportData}>Exporter</button>
+        </div>
+      </div>
+
+      <div className="control-card">
+        <h3>Import des données</h3>
+        <div className="control-row">
+          <input className="form-control" type="file" accept=".json" id="fileInput" />
+          <div className="secondary-actions">
+            <button className="btn btn-primary" onClick={handleButtonClick}>Traiter</button>
+            <button className="btn" onClick={handleUnloadButtonClick}>Réinitialiser</button>
+          </div>
+        </div>
+      </div>
+
+      <div className="control-card">
+        <h3>Automatisation</h3>
+        <div className="control-row">
+          <button className="btn btn-light text-danger shadow-sm" onClick={handleCollectScreenshotsButton}>
+            Capturer des captures d'écran
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section className="status-panel">
+      <span>
+        Module principal : {coreModule}<br />
+        Domaine cible : {scanDomain}
+      </span>
+      <span>
+        Progression : {scanStep} / {scanComplete}<br />
+        Étape en cours : {scanStepName}
       </span>
       <select
-                className="form-select dropdown-select mr-2"
-                value="wildfire"
-                onChange={handleDropdownChange}
-                aria-label="Select Scan"
-              >
-                <option value="wildfire">Wildfire.py</option>
-                <option value="slowburn" disabled>Slowburn.py</option>
-                <option value="scorched-earth" disabled>ScorchedEarth.py</option>
+        className="form-select dropdown-select"
+        value="wildfire"
+        onChange={handleDropdownChange}
+        aria-label="Sélectionner un scénario d'analyse"
+      >
+        <option value="wildfire">Wildfire.py</option>
+        <option value="slowburn" disabled>Slowburn.py</option>
+        <option value="scorched-earth" disabled>ScorchedEarth.py</option>
       </select>
-      <label style={{padding: '15px', color: '#D9D9D9'}} for="checkbox1">Fire-Starter</label>
-      <input style={{padding: '15px'}} type="checkbox" id="firestart" name="firestart" class="checkbox" onChange={handleStartToggle} checked={fireStarter}/>
-      <label style={{padding: '15px', color: '#D9D9D9'}} for="checkbox2">Fire-Cloud</label>
-      <input style={{padding: '15px'}} type="checkbox" id="firecloud" name="firecloud" class="checkbox" onChange={handleCloudToggle} checked={fireCloud}/>
-      <label style={{padding: '15px', color: '#D9D9D9'}} for="checkbox3">Fire-Scanner</label>
-      <input style={{padding: '15px'}} type="checkbox" id="firescan" name="firescan" class="checkbox" onChange={handleScannerToggle} checked={fireScanner}/>
-      <label style={{padding: '15px', color: '#D9D9D9', textDecoration: 'line-through'}} for="checkbox2">Fire-Spreadder</label>
-      <input style={{padding: '15px'}} type="checkbox" id="firecloud" name="firecloud" class="checkbox" onChange={handleSpreadToggle} checked={fireSpreadder} disabled/>
-      <label style={{padding: '15px', color: '#D9D9D9', textDecoration: 'line-through'}} for="checkbox2">Fire-Enumeration</label>
-      <input style={{padding: '15px'}} type="checkbox" id="firecloud" name="firecloud" class="checkbox" onChange={handleEnumToggle} checked={fireEnumeration} disabled/>
-      {
-        scanRunning ?
-        <button  style={{width: '100px', marginLeft: '15px'}} className="border border-info nav-link btn btn-primary text-secondary" type="submit" disabled>Cancel</button> :
-        <button  style={{width: '75px', marginLeft: '15px'}} className="border border-info nav-link btn btn-primary text-secondary" type="submit" onClick={runWildfire}>Scan</button>
-      }
-      <button  style={{width: '75px', marginLeft: '15px'}} className="border border-info nav-link btn btn-primary text-secondary" type="submit" disabled>Pause</button>
+      <div className="toggle-group">
+        <div className="toggle">
+          <input type="checkbox" id="firestart" name="firestart" onChange={handleStartToggle} checked={fireStarter} />
+          <label htmlFor="firestart">Module déclencheur</label>
+        </div>
+        <div className="toggle">
+          <input type="checkbox" id="firecloud" name="firecloud" onChange={handleCloudToggle} checked={fireCloud} />
+          <label htmlFor="firecloud">Module cloud</label>
+        </div>
+        <div className="toggle">
+          <input type="checkbox" id="firescan" name="firescan" onChange={handleScannerToggle} checked={fireScanner} />
+          <label htmlFor="firescan">Module scanner</label>
+        </div>
+        <div className="toggle disabled">
+          <input type="checkbox" id="fireshare" name="fireshare" onChange={handleSpreadToggle} checked={fireSpreadder} disabled />
+          <label htmlFor="fireshare" className="text-muted">Module propagation</label>
+        </div>
+        <div className="toggle disabled">
+          <input type="checkbox" id="fireenum" name="fireenum" onChange={handleEnumToggle} checked={fireEnumeration} disabled />
+          <label htmlFor="fireenum" className="text-muted">Module d'énumération</label>
+        </div>
+      </div>
+      <div className="secondary-actions">
+        {scanRunning ? (
+          <button className="btn btn-light" type="button" disabled>Annuler</button>
+        ) : (
+          <button className="btn btn-primary" type="button" onClick={runWildfire}>Lancer l'analyse</button>
+        )}
+        <button className="btn btn-light" type="button" disabled>Pause</button>
+      </div>
+    </section>
+
+    <div className="content-card">
+      {noFqdns === false && fqdns.length > 0 && loaded && (
+        <Fqdn index={activeTab} thisFqdn={fqdns[activeTab]} buttonFunction={deleteFqdn} setActiveTab={setActiveTab} />
+      )}
     </div>
-    {noFqdns === false && fqdns.length > 0 && loaded && <Fqdn index={activeTab} thisFqdn={fqdns[activeTab]} buttonFunction={deleteFqdn} setActiveTab={setActiveTab} />}
-    </div>
+  </div>
   );
 }
 
