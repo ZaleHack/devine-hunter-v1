@@ -1,8 +1,0 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
-    <channel>
-        <title>Tags - Balise - zalepentester | Blog</title>
-        <link>https://zalepentester.com/tags/</link>
-        <description>Tags - Balise - zalepentester | Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>fr</language><managingEditor>info@zalepentester.com (Saliou Thiam)</managingEditor>
-            <webMaster>info@zalepentester.com (Saliou Thiam)</webMaster><atom:link href="https://zalepentester.com/tags/" rel="self" type="application/rss+xml" /></channel>
-</rss>
