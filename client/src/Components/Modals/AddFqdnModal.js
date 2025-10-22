@@ -100,26 +100,26 @@ const AddFqdnModal = props => {
     
 
     return (
-        <div class="container-fluid">
-            <div class="container mt-5">
-                <div class="text-center">
-                    <h1 class="display-4">Add FQDN</h1>
-                    <p class="lead">Select a Burp Suite config file or enter a FQDN manually</p>
+        <div className="container-fluid">
+            <div className="container mt-5">
+                <div className="text-center">
+                    <h1 className="display-4">Ajouter un FQDN</h1>
+                    <p className="lead">Sélectionnez un fichier de configuration Burp Suite ou saisissez un FQDN manuellement</p>
                 </div>
                 <form onSubmit={handleSubmit}>
-                    <div class="form-group">
-                        <label for="configFile">Config File:</label>
-                        <input type="file" class="form-control" id="configFile" onChange={handleFileChange} />
+                    <div className="form-group">
+                        <label htmlFor="configFile">Fichier de configuration&nbsp;:</label>
+                        <input type="file" className="form-control" id="configFile" onChange={handleFileChange} />
                     </div>
-                    <div class="form-group">
-                        <label for="scanFile">Scan File:</label>
-                        <input type="file" class="form-control" id="scanFile" onChange={handleScanFileChange} />
+                    <div className="form-group mt-3">
+                        <label htmlFor="scanFile">Fichier de scan&nbsp;:</label>
+                        <input type="file" className="form-control" id="scanFile" onChange={handleScanFileChange} />
                     </div>
-                    <div class="form-group">
-                        <label for="manualFqdn">Manual FQDN:</label>
-                        <input type="text" class="form-control" id="manualFqdn" value={manualFqdn} onChange={handleManualChange} />
+                    <div className="form-group mt-3">
+                        <label htmlFor="manualFqdn">FQDN manuel&nbsp;:</label>
+                        <input type="text" className="form-control" id="manualFqdn" value={manualFqdn} onChange={handleManualChange} />
                     </div>
-                    <button type="submit" class="btn btn-primary btn-lg btn-block mt-5">Add</button>
+                    <button type="submit" className="btn btn-primary btn-lg btn-block mt-5">Ajouter</button>
                 </form>
             </div>
         </div>

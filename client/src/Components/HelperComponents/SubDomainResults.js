@@ -22,13 +22,13 @@ const SubDomainResults = props => {
             return (copyString += fqdn + "\n")
         })
         navigator.clipboard.writeText(copyString);
-        toast(`Subdomain List copied to Clipboard`);
+        toast(`Liste des sous-domaines copiée dans le presse-papiers`);
     }
 
     return (
         <div className="row mt-1">
             <div className="col-12">
-                <h5>Results ({props.subdomainList.length}):</h5>
+                <h5>Résultats ({props.subdomainList.length}) :</h5>
                 <div style={resultsStyle}>
                 {
                     props.subdomainList.map((subdomain, i)=>{
@@ -46,8 +46,8 @@ const SubDomainResults = props => {
                 </div>
             </div>
             <div className="col-4 mt-2">
-                <button className="btn btn-primary" onClick={deleteSubdomains}>Delete</button>
-                <button className="btn btn-primary ml-5" onClick={notify}>Copy</button>
+                <button className="btn btn-primary" onClick={deleteSubdomains}>Supprimer</button>
+                <button className="btn btn-primary ml-5" onClick={notify}>Copier</button>
             </div>
         </div>
     )
