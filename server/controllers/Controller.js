@@ -10,6 +10,30 @@ const execSync = util.promisify(require('child_process').execSync);
 const axios = require('axios');
 const https = require('https');
 
+const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const normalizeFqdn = (value) => {
+    if (typeof value !== 'string') {
+        return '';
+    }
+
+    const trimmed = value.trim();
+    if (!trimmed) {
+        return '';
+    }
+
+    const withoutScheme = trimmed.replace(/^(?:https?:\/\/)/i, '');
+    const withoutCredentials = withoutScheme.replace(/^[^@]+@/, '');
+    const withoutPrefix = withoutCredentials.replace(/^www\./i, '');
+    const withoutPath = withoutPrefix.split(/[/?#]/)[0];
+    const withoutTrailingDot = withoutPath.replace(/\.+$/, '');
+    const withoutRegexChars = withoutTrailingDot.replace(/[\\^$]/g, '');
+
+    return withoutRegexChars.toLowerCase();
+};
+
+const buildFqdnQuery = (fqdn) => ({ fqdn: new RegExp(`^${escapeRegExp(fqdn)}$`, 'i') });
+
 module.exports.ping = (req, res) => {
     res.json({ message: "pong" });
 }
@@ -39,11 +63,33 @@ module.exports.deleteCve = (req, res) => {
 
 // Fqdn Controllers
 
-module.exports.addFqdn = (req, res) => {
-    
-    Fqdn.create(req.body)
-        .then(newFqdn=>res.json(newFqdn))
-        .catch(err=>res.status(400).json(err))
+module.exports.addFqdn = async (req, res) => {
+    const incomingBody = req.body || {};
+    const normalizedFqdn = normalizeFqdn(incomingBody.fqdn);
+
+    if (!normalizedFqdn) {
+        return res.status(400).json({ message: "Le champ FQDN est requis." });
+    }
+
+    try {
+        const existingFqdn = await Fqdn.findOne(buildFqdnQuery(normalizedFqdn));
+
+        if (existingFqdn) {
+            if (existingFqdn.fqdn !== normalizedFqdn) {
+                existingFqdn.fqdn = normalizedFqdn;
+                await existingFqdn.save();
+            }
+
+            return res.json(existingFqdn);
+        }
+
+        const payload = { ...incomingBody, fqdn: normalizedFqdn };
+        const newFqdn = await Fqdn.create(payload);
+        return res.json(newFqdn);
+    } catch (err) {
+        console.error('Error adding FQDN:', err);
+        return res.status(500).json({ message: "Une erreur est survenue lors de l'ajout du FQDN.", details: err.message });
+    }
 }
 
 module.exports.getFqdns = (req, res) => {
@@ -78,17 +124,30 @@ module.exports.updateFqdn = (req, res) => {
 }
 
 module.exports.autoGetFqdn = (req, res) => {
-    
-    Fqdn.findOne({ fqdn: req.body.fqdn })
+    const normalizedFqdn = normalizeFqdn(req.body && req.body.fqdn);
+
+    if (!normalizedFqdn) {
+        return res.status(400).json({ message: "Le champ FQDN est requis." });
+    }
+
+    Fqdn.findOne(buildFqdnQuery(normalizedFqdn))
         .then(oneFqdn=>res.json(oneFqdn))
         .catch(err=>res.status(400).json(err))
 }
 
 module.exports.autoUpdateFqdn = (req, res) => {
-    
+    const incomingBody = req.body || {};
+    const normalizedFqdn = normalizeFqdn(incomingBody.fqdn);
+
+    if (!normalizedFqdn) {
+        return res.status(400).json({ message: "Le champ FQDN est requis." });
+    }
+
+    const payload = { ...incomingBody, fqdn: normalizedFqdn };
+
     Fqdn.findOneAndUpdate(
-        { fqdn: req.body.fqdn },
-        req.body,
+        buildFqdnQuery(normalizedFqdn),
+        payload,
         { new: true, runValidators: true })
         .then(result=>res.json(result))
         .catch(err=>res.status(400).json(err))
