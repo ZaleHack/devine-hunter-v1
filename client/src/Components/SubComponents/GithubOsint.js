@@ -1,24 +1,82 @@
-import React, {useState, useEffect} from 'react';
-import axios from 'axios';import UrlForm from '../HelperComponents/UrlForm';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Toaster } from 'react-hot-toast';
+import UrlForm from '../HelperComponents/UrlForm';
 
 const GithubOsint = props => {
     const [urls, setUrls] = useState([]);
     const [loaded, setLoaded] = useState(false);
 
-    useEffect(()=>{
-        axios.post('/api/urllist', {fqdnId: props.thisFqdn._id})
-            .then(res=>{
-                const urlArray = [];
-                urlArray.push(props.thisFqdn.fqdn);
-                for (const url of res.data?.eyeWitness){
-                    let temp = url.replace("http://", "").replace("https://", "").replace("/", "");
-                    urlArray.push(temp);
+    useEffect(() => {
+        let isMounted = true;
+
+        const normalise = (value) => {
+            if (typeof value !== 'string') {
+                return null;
+            }
+
+            const trimmed = value.trim();
+            if (!trimmed) {
+                return null;
+            }
+
+            return trimmed
+                .replace(/^https?:\/\//i, '')
+                .replace(/\/+$/, '');
+        };
+
+        const buildUrlArray = (additionalUrls = []) => {
+            const combined = [
+                props.thisFqdn?.fqdn,
+                ...additionalUrls,
+                ...(Array.isArray(props.thisFqdn?.targetUrls) ? props.thisFqdn.targetUrls : [])
+            ];
+
+            const deduped = [];
+            const seen = new Set();
+
+            combined.forEach((rawUrl) => {
+                const cleaned = normalise(rawUrl);
+
+                if (!cleaned || seen.has(cleaned)) {
+                    return;
                 }
-                setUrls(urlArray);
-                setLoaded(true);
-                console.log(urlArray);
-            })
-    }, [props.thisFqdn._id, props.thisFqdn.fqdn])
+
+                seen.add(cleaned);
+                deduped.push(cleaned);
+            });
+
+            return deduped;
+        };
+
+        const fetchUrls = async () => {
+            setLoaded(false);
+            try {
+                const response = await axios.post('/api/urllist', { fqdnId: props.thisFqdn._id });
+                const remoteUrls = Array.isArray(response.data?.eyeWitness) ? response.data.eyeWitness : [];
+
+                if (isMounted) {
+                    setUrls(buildUrlArray(remoteUrls));
+                }
+            } catch (error) {
+                console.error('Error fetching URL list for GitHub OSINT:', error);
+
+                if (isMounted) {
+                    setUrls(buildUrlArray());
+                }
+            } finally {
+                if (isMounted) {
+                    setLoaded(true);
+                }
+            }
+        };
+
+        fetchUrls();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [props.thisFqdn._id, props.thisFqdn.fqdn, props.thisFqdn?.targetUrls]);
 
     return (
         <div className="container mt-5">
