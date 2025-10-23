@@ -27,6 +27,7 @@ const SubDomainResults = props => {
 
     return (
         <div className="row mt-1">
+            <Toaster position="top-right" />
             <div className="col-12">
                 <h5>Résultats ({props.subdomainList.length}) :</h5>
                 <div style={resultsStyle}>

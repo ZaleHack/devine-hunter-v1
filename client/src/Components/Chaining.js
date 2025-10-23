@@ -1,34 +1,73 @@
-import React, {useState, useEffect} from 'react';
-import axios from 'axios';import '../Component.css';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import '../Component.css';
 
 const Chaining = props => {
-    const [urls, setUrls] = useState(props.thisFqdn.targetUrls)
+    const urls = props.thisFqdn.targetUrls || [];
     const [activeEndpointTab, setActiveEndpointTab] = useState(0);
-    const [urlData, setUrlData] = useState({});
+    const [urlData, setUrlData] = useState({ endpoints: [] });
     const [loaded, setLoaded] = useState(false);
 
-    useEffect(()=>{
+    useEffect(() => {
+        setActiveEndpointTab(0);
+    }, [props.thisFqdn._id, props.thisFqdn.targetUrls]);
+
+    useEffect(() => {
+        const targetUrl = urls[activeEndpointTab];
+        if (!targetUrl) {
+            setUrlData({ endpoints: [] });
+            return;
+        }
+
         setLoaded(false);
-        axios.post('/api/url/auto', {url:props.thisFqdn.targetUrls[activeEndpointTab]})
-        .then(res=>{
-            if (res.data){
-                setUrlData(res.data);
-            } else {
-                setUrlData({
-                    "endpoints": []
-                })
-            }
-            setLoaded(true);
-        })
-        .catch(err=>console.log(err))
-    }, [activeEndpointTab]);
+        axios.post('/api/url/auto', { url: targetUrl })
+            .then(res => {
+                if (res.data) {
+                    setUrlData(res.data);
+                } else {
+                    setUrlData({
+                        endpoints: []
+                    });
+                }
+                setLoaded(true);
+            })
+            .catch(err => console.log(err));
+    }, [activeEndpointTab, props.thisFqdn._id, props.thisFqdn.targetUrls]);
+
+    const handleEndpointChange = (event) => {
+        setActiveEndpointTab(Number(event.target.value));
+    };
 
     return (
         <>
         <nav className="pl-2 pt-0 navbar navbar-expand-lg modern-toolbar">
             <div className="container-fluid">
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <h5 className="toolbar-text ml-4 pt-0 mb-0">URL cible : &nbsp;&nbsp;<a className="toolbar-link" target="_blank" rel="noreferrer" href={urls[0]}>{urls[0]}</a></h5>
+                    <h5 className="toolbar-text ml-4 pt-0 mb-0">
+                        URL cible : &nbsp;&nbsp;
+                        <a
+                            className="toolbar-link"
+                            target="_blank"
+                            rel="noreferrer"
+                            href={urls[activeEndpointTab] || '#'}
+                        >
+                            {urls[activeEndpointTab] || 'Aucune URL disponible'}
+                        </a>
+                    </h5>
+                    {urls.length > 1 && (
+                        <select
+                            className="form-select ms-3"
+                            value={activeEndpointTab}
+                            onChange={handleEndpointChange}
+                            aria-label="Sélectionner une URL cible"
+                        >
+                            {urls.map((url, index) => (
+                                <option value={index} key={url}>
+                                    {url}
+                                </option>
+                            ))}
+                        </select>
+                    )}
                 </div>
             </div>
         </nav>
@@ -51,6 +90,19 @@ const Chaining = props => {
             </ul>
         </div>
         <div className="bg-secondary workTableStyle">
+            {loaded ? (
+                urlData.endpoints && urlData.endpoints.length > 0 ? (
+                    <ul>
+                        {urlData.endpoints.map((endpoint, index) => (
+                            <li key={index}>{endpoint}</li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>Aucun endpoint détecté pour cette URL.</p>
+                )
+            ) : (
+                <p>Analyse des endpoints en cours...</p>
+            )}
         </div>
         </>
     )

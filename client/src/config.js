@@ -33,7 +33,9 @@ export const TOOLKIT_BASE_URL = sanitizeBaseUrl(
   inferDefaultUrl(5000)
 );
 
-export default {
+const config = {
   API_BASE_URL,
   TOOLKIT_BASE_URL,
 };
+
+export default config;

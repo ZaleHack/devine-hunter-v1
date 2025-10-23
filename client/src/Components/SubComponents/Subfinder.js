@@ -1,4 +1,5 @@
-import axios from 'axios';import React, {useState, useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 import toast, { Toaster } from 'react-hot-toast';
 import SubDomainForm from '../HelperComponents/SubDomainForm';
@@ -22,15 +23,13 @@ const Subfinder = props => {
         axios.post('/api/fqdn', {_id:props.thisFqdn._id})
             .then(res=>{
                 if (res.data !== null){
-                    const tempArr = res.data.recon.subdomains.subfinder;
-                    if (tempArr.length > 0){
-                        setSubdomainList(res.data.recon.subdomains.subfinder)
-                        setFormCompleted(true);
-                    }
+                    const tempArr = res.data.recon.subdomains.subfinder || [];
+                    setSubdomainList(tempArr)
+                    setFormCompleted(tempArr.length > 0);
                 }
                 setLoaded(true);
             })
-    }, [props])
+    }, [props.thisFqdn._id])
     
 
 
@@ -57,6 +56,7 @@ const Subfinder = props => {
 
     return (
         <div className="container mt-1">
+            <Toaster position="top-right" />
             <div className="row">
                 <div className="col-12">
                     <p><b>Détails&nbsp;:</b>Subfinder est un outil d’énumération passive des sous-domaines. Sa structure modulaire et optimisée offre une collecte rapide à partir de sources en ligne accessibles publiquement.</p>
