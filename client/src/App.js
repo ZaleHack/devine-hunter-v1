@@ -11,6 +11,7 @@ function App() {
   const [fqdns, setFqdns] = useState([]);
   const [noFqdns, setNoFqdns] = useState(true);
   const [loaded, setLoaded] = useState(false);
+  const [isAddFqdnModalOpen, setIsAddFqdnModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [refreshCounter, setRefreshCounter] = useState(0);
   const [fireStarter, setFireStarter] = useState(true);
@@ -66,9 +67,9 @@ function App() {
         if (res.data.length > 0) {
           setNoFqdns(false);
         }
-        setLoaded(true);
       })
       .catch(err=>console.log(err))
+      .finally(() => setLoaded(true));
     
     const interval = setInterval(() => {
           fetchData();
@@ -84,8 +85,14 @@ function App() {
     }
   }, [activeTab, fqdns]);
 
-  const addNewFqdn = () => {
-    setNoFqdns(true);
+  const openAddFqdnModal = () => {
+    setIsAddFqdnModalOpen(true);
+  }
+
+  const closeAddFqdnModal = () => {
+    if (!noFqdns) {
+      setIsAddFqdnModalOpen(false);
+    }
   }
 
   const exportData = () => {
@@ -268,7 +275,8 @@ return (
   <div className="app-shell">
     {loaded && (
       <Modal
-        isOpen={noFqdns}
+        isOpen={noFqdns || isAddFqdnModalOpen}
+        onRequestClose={closeAddFqdnModal}
         style={{
           overlay: {
             backgroundColor: 'rgba(31, 31, 31, 0.55)'
@@ -284,7 +292,12 @@ return (
           }
         }}
       >
-        <AddFqdnModal fqdns={fqdns} setFqdns={setFqdns} setNoFqdns={setNoFqdns} />
+        <AddFqdnModal
+          fqdns={fqdns}
+          setFqdns={setFqdns}
+          setNoFqdns={setNoFqdns}
+          onClose={() => setIsAddFqdnModalOpen(false)}
+        />
       </Modal>
     )}
 
@@ -315,7 +328,7 @@ return (
               <option key={index} value={index}>{fqdn.fqdn}</option>
             ))}
           </select>
-          <button className="btn btn-primary" onClick={addNewFqdn}>Ajouter un FQDN</button>
+          <button className="btn btn-primary" onClick={openAddFqdnModal}>Ajouter un FQDN</button>
           <button className="btn btn-light text-danger shadow-sm" onClick={deleteFqdn}>Supprimer le FQDN</button>
         </div>
         <div className="toggle">
