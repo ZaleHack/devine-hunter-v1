@@ -20,6 +20,43 @@ const normalizeFqdn = (value) => {
     return withoutRegexChars.toLowerCase();
 };
 
+const stripBom = (value) =>
+    typeof value === 'string' ? value.replace(/^\uFEFF/, '') : value;
+
+const tryParseJson = (raw) => {
+    if (typeof raw !== 'string') {
+        return { ok: false, error: new Error('INVALID_TYPE') };
+    }
+
+    try {
+        return { ok: true, value: JSON.parse(stripBom(raw)) };
+    } catch (error) {
+        return { ok: false, error };
+    }
+};
+
+const extractScanEntries = (payload) => {
+    if (Array.isArray(payload)) {
+        return payload;
+    }
+
+    if (payload && typeof payload === 'object') {
+        if (Array.isArray(payload.fqdns)) {
+            return payload.fqdns;
+        }
+
+        if (Array.isArray(payload.data)) {
+            return payload.data;
+        }
+
+        if (Array.isArray(payload.items)) {
+            return payload.items;
+        }
+    }
+
+    return null;
+};
+
 const AddFqdnModal = ({ fqdns, setFqdns, setNoFqdns, onClose }) => {
     const [file, setFile] = useState(null);
     const [scanFile, setScanFile] = useState(null);
@@ -28,16 +65,22 @@ const AddFqdnModal = ({ fqdns, setFqdns, setNoFqdns, onClose }) => {
 
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
+        setScanFile(null);
+        setManualFqdn("");
         setErrorMessage("");
     }
 
     const handleManualChange = (e) => {
         setManualFqdn(e.target.value);
+        setFile(null);
+        setScanFile(null);
         setErrorMessage("");
     }
 
     const handleScanFileChange = (e) => {
         setScanFile(e.target.files[0]);
+        setFile(null);
+        setManualFqdn("");
         setErrorMessage("");
     }
 
@@ -49,8 +92,15 @@ const AddFqdnModal = ({ fqdns, setFqdns, setNoFqdns, onClose }) => {
             console.log("Reading file");
             const reader = new FileReader();
             reader.onload = (e) => {
+                const parsed = tryParseJson(e.target.result);
+                if (!parsed.ok) {
+                    console.error("Error parsing JSON", parsed.error);
+                    setErrorMessage("Impossible de lire le fichier sélectionné.");
+                    return;
+                }
+
                 try {
-                    const content = JSON.parse(e.target.result);
+                    const content = parsed.value;
                     const inScope = content.target?.scope?.include;
                     if (Array.isArray(inScope)) {
                         let domains = inScope
@@ -87,11 +137,11 @@ const AddFqdnModal = ({ fqdns, setFqdns, setNoFqdns, onClose }) => {
                         });
                         }
                 } catch (err) {
-                    console.error("Error parsing JSON", err);
+                    console.error("Error processing configuration", err);
                     setErrorMessage("Impossible de lire le fichier sélectionné.");
                 }
             };
-    
+
             reader.readAsText(file);
         } else if (manualFqdn) {
             console.log("Manually adding...");
@@ -126,15 +176,33 @@ const AddFqdnModal = ({ fqdns, setFqdns, setNoFqdns, onClose }) => {
                 .catch(err => {
                     console.log(err);
                     const apiMessage = err?.response?.data?.message;
-                    setErrorMessage(apiMessage || "Impossible d'ajouter le FQDN manuellement.");
+                    if (apiMessage) {
+                        setErrorMessage(apiMessage);
+                    } else if (err?.request) {
+                        setErrorMessage("Impossible de contacter l'API pour ajouter le FQDN.");
+                    } else {
+                        setErrorMessage("Impossible d'ajouter le FQDN manuellement.");
+                    }
                 });
         } else if (scanFile) {
             console.log(scanFile);
             console.log("Loading Scan File...")
             const reader = new FileReader();
             reader.onload = (e) => {
+                const parsed = tryParseJson(e.target.result);
+                if (!parsed.ok) {
+                    console.error('Error parsing JSON file:', parsed.error);
+                    setErrorMessage("Impossible de lire le fichier de scan.");
+                    return;
+                }
+
                 try {
-                    const importedData = JSON.parse(e.target.result);
+                    const importedData = extractScanEntries(parsed.value);
+                    if (!Array.isArray(importedData)) {
+                        setErrorMessage("Le fichier de scan ne contient aucun FQDN exploitable.");
+                        return;
+                    }
+
                     let updatedData = [...fqdns];
                     let hasChanges = false;
                     const syncRequests = [];
@@ -183,7 +251,7 @@ const AddFqdnModal = ({ fqdns, setFqdns, setNoFqdns, onClose }) => {
                         onClose();
                     }
                 } catch (error) {
-                    console.error('Error parsing JSON file:', error);
+                    console.error('Error processing scan file:', error);
                     setErrorMessage("Impossible de lire le fichier de scan.");
                 }
             };
@@ -198,6 +266,14 @@ const AddFqdnModal = ({ fqdns, setFqdns, setNoFqdns, onClose }) => {
         setScanFile(null);
         setManualFqdn("");
         setErrorMessage("");
+        const configInput = document.getElementById('configFile');
+        if (configInput) {
+            configInput.value = '';
+        }
+        const scanInput = document.getElementById('scanFile');
+        if (scanInput) {
+            scanInput.value = '';
+        }
     }
 
     return (
