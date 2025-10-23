@@ -152,10 +152,89 @@ module.exports.autoUpdateUrl = (req, res) => {
 }
 
 module.exports.autoDeleteUrl = (req, res) => {
-    
+
     Url.deleteOne({ url: req.body.url })
         .then(result=>res.json({success:true}))
         .catch(err=>res.status(400).json(err))
+}
+
+module.exports.getUrlList = async (req, res) => {
+    const { fqdnId } = req.body || {};
+
+    if (!fqdnId) {
+        return res.status(400).json({ message: "fqdnId is required" });
+    }
+
+    try {
+        const fqdnRecord = await Fqdn.findById(fqdnId).lean();
+
+        if (!fqdnRecord) {
+            return res.status(404).json({ message: "FQDN not found" });
+        }
+
+        const urlsForFqdn = await Url.find({ fqdn: fqdnRecord.fqdn }).lean();
+
+        const uniqueUrls = new Set();
+
+        const addCandidate = (candidate) => {
+            if (typeof candidate !== "string") {
+                return;
+            }
+
+            const trimmed = candidate.trim();
+            if (!trimmed) {
+                return;
+            }
+
+            uniqueUrls.add(trimmed);
+        };
+
+        const addFromCollection = (collection) => {
+            if (Array.isArray(collection)) {
+                collection.forEach(addCandidate);
+            }
+        };
+
+        addCandidate(fqdnRecord.fqdn);
+        addFromCollection(fqdnRecord.targetUrls);
+
+        const subdomains = fqdnRecord.recon && fqdnRecord.recon.subdomains ? fqdnRecord.recon.subdomains : {};
+        addFromCollection(subdomains.httprobe);
+        addFromCollection(subdomains.httprobeAdded);
+        addFromCollection(subdomains.httprobeRemoved);
+        addFromCollection(subdomains.masscan);
+        addFromCollection(subdomains.masscanLive);
+
+        urlsForFqdn.forEach((doc) => {
+            addCandidate(doc.url);
+
+            if (!Array.isArray(doc.endpoints)) {
+                return;
+            }
+
+            doc.endpoints.forEach((endpoint) => {
+                if (!endpoint || typeof endpoint.endpoint !== "string") {
+                    return;
+                }
+
+                const baseUrl = typeof doc.url === "string" ? doc.url.trim() : "";
+
+                if (!baseUrl) {
+                    return;
+                }
+
+                const normalisedBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
+                const normalisedEndpoint = endpoint.endpoint.startsWith("/") ? endpoint.endpoint : `/${endpoint.endpoint}`;
+
+                addCandidate(`${normalisedBase}${normalisedEndpoint}`);
+            });
+        });
+
+        return res.json({ eyeWitness: Array.from(uniqueUrls) });
+    } catch (error) {
+        console.error("Error retrieving URL list:", error);
+        return res.status(500).json({ message: "Unable to retrieve URL list" });
+    }
 }
 
 // Log Controllers
