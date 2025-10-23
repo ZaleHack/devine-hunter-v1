@@ -4,7 +4,7 @@
   "description": "A Modern Framework for Bug Bounty Hunting",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node tests/fqdn-utils.test.js"
   },
   "keywords": [],
   "author": "rs0n",
