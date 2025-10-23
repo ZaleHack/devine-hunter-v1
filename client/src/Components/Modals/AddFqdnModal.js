@@ -1,6 +1,26 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 
+const normalizeFqdn = (value) => {
+    if (typeof value !== 'string') {
+        return '';
+    }
+
+    const trimmed = value.trim();
+    if (!trimmed) {
+        return '';
+    }
+
+    const withoutScheme = trimmed.replace(/^(?:https?:\/\/)/i, '');
+    const withoutCredentials = withoutScheme.replace(/^[^@]+@/, '');
+    const withoutPrefix = withoutCredentials.replace(/^www\./i, '');
+    const withoutPath = withoutPrefix.split(/[/?#]/)[0];
+    const withoutTrailingDot = withoutPath.replace(/\.+$/, '');
+    const withoutRegexChars = withoutTrailingDot.replace(/[\\^$]/g, '');
+
+    return withoutRegexChars.toLowerCase();
+};
+
 const AddFqdnModal = ({ fqdns, setFqdns, setNoFqdns, onClose }) => {
     const [file, setFile] = useState(null);
     const [scanFile, setScanFile] = useState(null);
@@ -34,11 +54,10 @@ const AddFqdnModal = ({ fqdns, setFqdns, setNoFqdns, onClose }) => {
                     const content = JSON.parse(e.target.result);
                     const inScope = content.target?.scope?.include;
                     if (Array.isArray(inScope)) {
-                        let domains = inScope.filter(inclusion => inclusion.enabled)
-                                             .map(inclusion => {
-                                                 return inclusion.host.replace(/(https?:\/\/)?(www\.)?/g, '')
-                                                                      .replace(/[\^$\\]/g, '');
-                                             });
+                        let domains = inScope
+                            .filter(inclusion => inclusion.enabled)
+                            .map(inclusion => normalizeFqdn(inclusion.host))
+                            .filter(domain => domain);
 
                         domains = [...new Set(domains)];
                         Promise.allSettled(domains.map(domain => axios.post('/api/fqdn/new', { fqdn: domain })))
@@ -77,7 +96,13 @@ const AddFqdnModal = ({ fqdns, setFqdns, setNoFqdns, onClose }) => {
             reader.readAsText(file);
         } else if (manualFqdn) {
             console.log("Manually adding...");
-            const domain = manualFqdn.replace(/(https?:\/\/)?(www\.)?/g, '');
+            const domain = normalizeFqdn(manualFqdn);
+
+            if (!domain) {
+                setErrorMessage("Veuillez saisir un FQDN valide.");
+                return;
+            }
+
             axios.post('/api/fqdn/new', { fqdn: domain })
                 .then(res => {
                     const newFqdn = res.data;
@@ -101,7 +126,8 @@ const AddFqdnModal = ({ fqdns, setFqdns, setNoFqdns, onClose }) => {
                 })
                 .catch(err => {
                     console.log(err);
-                    setErrorMessage("Impossible d'ajouter le FQDN manuellement.");
+                    const apiMessage = err?.response?.data?.message;
+                    setErrorMessage(apiMessage || "Impossible d'ajouter le FQDN manuellement.");
                 });
         } else if (scanFile) {
             console.log(scanFile);
