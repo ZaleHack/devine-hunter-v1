@@ -4,7 +4,7 @@ import Modal from 'react-modal';
 import AddFqdnModal from './Components/Modals/AddFqdnModal';
 import Fqdn from './Views/Fqdn';
 import './App.css'
-import { TOOLKIT_BASE_URL } from './config';
+import { buildToolkitUrl } from './config';
 
 function App() {
   useEffect(() => setActiveTab(0), []);
@@ -43,7 +43,7 @@ function App() {
   useEffect(()=>{
     const fetchData = async () => {
       try {
-        const response = await fetch(`${TOOLKIT_BASE_URL}/status`);
+        const response = await fetch(buildToolkitUrl('status'));
         const result = await response.json();
         setScanRunning(result['scan_running']);
         setScanStep(result['scan_step']);
@@ -169,7 +169,7 @@ function App() {
         scanSingleDomain: scanSingleDomain,
         domainCount: fqdns.length
       };
-      axios.post(`${TOOLKIT_BASE_URL}/wildfire`, payload)
+      axios.post(buildToolkitUrl('wildfire'), payload)
       .then(res => {
         setScanRunning(true);
         console.log("Wildfire Running Against All Domains...");
@@ -184,7 +184,7 @@ function App() {
         scanSingleDomain: scanSingleDomain,
         domainCount: 1
       };
-      axios.post(`${TOOLKIT_BASE_URL}/wildfire`, payload)
+      axios.post(buildToolkitUrl('wildfire'), payload)
       .then(res => {
         setScanRunning(true);
         console.log("Wildfire Running Against Single Domain...");
@@ -254,7 +254,7 @@ function App() {
   };
 
   const handleCollectScreenshotsButton = () => {
-    axios.post(`${TOOLKIT_BASE_URL}/collect_sceenshots`,{})
+    axios.post(buildToolkitUrl('collect_sceenshots'),{})
       .then(res => {
         console.log("Collecting Screenshots...");
       })
