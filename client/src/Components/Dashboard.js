@@ -8,7 +8,6 @@ const Dashboard = props => {
     const [impactfulVulnCount, setImpactfulVulnCount] = useState(0)
     const [impactfulVulnArray, setImpactfulVulnArray] = useState([])
     const formatUpdated = thisFqdn?.updatedAt.replace(/([A-Z])+/g, " ").replace(/(\.[0-9]+)/g, " GMT");
-    const [currentStep, setCurrentStep] = useState(0);
     const [impactfulVulnCountSSL, setImpactfulVulnCountSSL] = useState(0)
     const [impactfulVulnCountFile, setImpactfulVulnCountFile] = useState(0)
     const [impactfulVulnCountDNS, setImpactfulVulnCountDNS] = useState(0)

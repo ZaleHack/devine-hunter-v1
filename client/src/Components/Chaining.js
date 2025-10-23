@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import '../Component.css';
 
 const Chaining = props => {
-    const urls = props.thisFqdn.targetUrls || [];
+    const urls = useMemo(() => props.thisFqdn.targetUrls || [], [props.thisFqdn.targetUrls]);
     const [activeEndpointTab, setActiveEndpointTab] = useState(0);
     const [urlData, setUrlData] = useState({ endpoints: [] });
     const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
         setActiveEndpointTab(0);
-    }, [props.thisFqdn._id, props.thisFqdn.targetUrls]);
+    }, [props.thisFqdn._id, urls]);
 
     useEffect(() => {
         const targetUrlList = props.thisFqdn.targetUrls || [];
@@ -33,7 +33,7 @@ const Chaining = props => {
                 setLoaded(true);
             })
             .catch(err => console.log(err));
-    }, [activeEndpointTab, props.thisFqdn._id, props.thisFqdn.targetUrls]);
+    }, [activeEndpointTab, props.thisFqdn._id, urls]);
 
     const handleEndpointChange = (event) => {
         setActiveEndpointTab(Number(event.target.value));
