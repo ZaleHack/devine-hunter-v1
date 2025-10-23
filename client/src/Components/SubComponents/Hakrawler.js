@@ -19,7 +19,7 @@ const Hakrawler = props => {
 
     useEffect(()=>{
         setFormCompleted(false);
-        axios.post('http://localhost:8000/api/fqdn', {_id:props.thisFqdn._id})
+        axios.post('/api/fqdn', {_id:props.thisFqdn._id})
             .then(res=>{
                 if (res.data !== null){
                     const tempArr = res.data.recon.subdomains.hakrawler;
@@ -37,7 +37,7 @@ const Hakrawler = props => {
     const addHakrawlerData = (list) => {
         const tempFqdn = props.thisFqdn;
         tempFqdn.recon.subdomains.hakrawler = list.split("\n");
-        axios.post('http://localhost:8000/api/fqdn/update', tempFqdn)
+        axios.post('/api/fqdn/update', tempFqdn)
             .then(res=>{
                 setSubdomainList(res.data.recon.subdomains.hakrawler)
                 setFormCompleted(true);
@@ -48,7 +48,7 @@ const Hakrawler = props => {
     const deleteHakrawlerData = () => {
         const tempFqdn = props.thisFqdn;
         tempFqdn.recon.subdomains.hakrawler = [];
-        axios.post('http://localhost:8000/api/fqdn/update', tempFqdn)
+        axios.post('/api/fqdn/update', tempFqdn)
             .then(res=>{
                 setSubdomainList(res.data.recon.subdomains.hakrawler)
                 setFormCompleted(false);

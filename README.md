@@ -90,6 +90,22 @@ Si vous utilisez une architecture ARM :
 
 L’interface web permet d’ajouter des FQDN, de configurer vos modules de reconnaissance et de lancer les scans Wildfire. Tous les flux de travail hérités de la version d’origine restent disponibles, mais sont désormais présentés dans une interface modernisée en rouge et blanc.
 
+### Configuration réseau du client web
+
+Par défaut, l’interface web contacte l’API Express (port 8000) et le service Wildfire (port 5000) en fonction de l’origine sur laquelle elle est chargée :
+
+* lorsqu’elle tourne en local (`localhost`), les ports historiques `8000` et `5000` sont utilisés ;
+* si vous servez l’interface depuis un nom de domaine ou une IP publique, la même origine que celle du navigateur est ciblée automatiquement.
+
+Dans les scénarios où les API sont exposées sur d’autres URL, vous pouvez forcer les points d’accès en créant un fichier `client/.env` avant de lancer `npm start` ou `npm run build` :
+
+```
+REACT_APP_API_BASE_URL=https://mon-domaine.tld/api
+REACT_APP_TOOLKIT_BASE_URL=https://mon-domaine.tld/wildfire
+```
+
+Les valeurs sont lues au démarrage de l’application React et peuvent pointer vers n’importe quel reverse-proxy ou service externe.
+
 ## Dépannage
 
 La majorité des soucis d’installation ou d’exécution proviennent d’un système Kali non vierge. Dvine Hunter orchestre de nombreux outils open source qui peuvent entrer en conflit avec d’autres services présents sur la machine.
