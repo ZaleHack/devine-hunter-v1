@@ -38,6 +38,24 @@ const Dashboard = props => {
     const [impactfulVulnFoundNetwork, setImpactfulVulnFoundNetwork] = useState(false)
     const [impactfulVulnFoundRs0n, setImpactfulVulnFoundRs0n] = useState(false)
     const [impactfulVulnFoundHeadless, setImpactfulVulnFoundHeadless] = useState(false)
+
+    const vulnerabilitySections = [
+        { step: 0, label: 'Complet', count: impactfulVulnCountFull, hasCriticalFinding: false },
+        { step: 1, label: 'SSL', count: impactfulVulnCountSSL, hasCriticalFinding: impactfulVulnFoundSSL },
+        { step: 2, label: 'Fichiers', count: impactfulVulnCountFile, hasCriticalFinding: impactfulVulnFoundFile },
+        { step: 3, label: 'DNS', count: impactfulVulnCountDNS, hasCriticalFinding: impactfulVulnFoundDNS },
+        { step: 4, label: 'Vulnérabilités', count: impactfulVulnCountVulns, hasCriticalFinding: impactfulVulnFoundVulns },
+        { step: 5, label: 'Technologies', count: impactfulVulnCountTech, hasCriticalFinding: impactfulVulnFoundTech },
+        { step: 6, label: 'Mauvaises configurations', count: impactfulVulnCountMisconfig, hasCriticalFinding: impactfulVulnFoundMisconfig },
+        { step: 7, label: 'CVE', count: impactfulVulnCountCVEs, hasCriticalFinding: impactfulVulnFoundCVEs },
+        { step: 8, label: 'CNVD', count: impactfulVulnCountCNVD, hasCriticalFinding: impactfulVulnFoundCNVD },
+        { step: 9, label: 'Services exposés', count: impactfulVulnCountExposed, hasCriticalFinding: impactfulVulnFoundExposed },
+        { step: 10, label: 'Surface exposée', count: impactfulVulnCountExposure, hasCriticalFinding: impactfulVulnFoundExposure },
+        { step: 11, label: 'Divers', count: impactfulVulnCountMisc, hasCriticalFinding: impactfulVulnFoundMisc },
+        { step: 12, label: 'Réseau', count: impactfulVulnCountNetwork, hasCriticalFinding: impactfulVulnFoundNetwork },
+        { step: 13, label: 'Rs0n', count: impactfulVulnCountRs0n, hasCriticalFinding: impactfulVulnFoundRs0n },
+        { step: 14, label: 'Sans interface', count: impactfulVulnCountHeadless, hasCriticalFinding: impactfulVulnFoundHeadless },
+    ]
     
     useEffect(()=>{
         axios.post('/api/fqdn', {_id:props.thisFqdn._id})
@@ -329,78 +347,29 @@ const Dashboard = props => {
                 </div>
                 <div className="col-3 ml-3">
                     <h5>Vulnérabilités Nuclei significatives : {impactfulVulnCount}/{vulnCount}</h5>
-                    <ul style={{listStyleType:"none"}}> 
-                        <li className="mt-4" onClick={(e)=>setCurrentStep(0)}>Complet (Nombre de vulnérabilités : {impactfulVulnCountFull})</li>
-                        {
-                            impactfulVulnFoundSSL ?
-                            <li className="mt-2" style={{color:"red"}} onClick={(e)=>setCurrentStep(1)}>SSL (Nombre de vulnérabilités : {impactfulVulnCountSSL})</li> :
-                            <li className="mt-2" onClick={(e)=>setCurrentStep(1)}>SSL (Nombre de vulnérabilités : {impactfulVulnCountSSL})</li> 
-                        }
-                        {
-                            impactfulVulnFoundFile ?
-                            <li className="mt-2" style={{color:"red"}} onClick={(e)=>setCurrentStep(2)}>Fichiers (Nombre de vulnérabilités : {impactfulVulnCountFile})</li> :
-                            <li className="mt-2" onClick={(e)=>setCurrentStep(2)}>Fichiers (Nombre de vulnérabilités : {impactfulVulnCountFile})</li>
-                        }
-                        {
-                            impactfulVulnFoundDNS ?
-                            <li className="mt-2" style={{color:"red"}} onClick={(e)=>setCurrentStep(3)}>DNS (Nombre de vulnérabilités : {impactfulVulnCountDNS})</li> :
-                            <li className="mt-2" onClick={(e)=>setCurrentStep(3)}>DNS (Nombre de vulnérabilités : {impactfulVulnCountDNS})</li>
-                        }
-                        {
-                            impactfulVulnFoundVulns ?
-                            <li className="mt-2" style={{color:"red"}} onClick={(e)=>setCurrentStep(4)}>Vulnérabilités (Nombre de vulnérabilités : {impactfulVulnCountVulns})</li> :
-                            <li className="mt-2" onClick={(e)=>setCurrentStep(4)}>Vulnérabilités (Nombre de vulnérabilités : {impactfulVulnCountVulns})</li>
-                        }
-                        {
-                            impactfulVulnFoundTech ?
-                            <li className="mt-2" style={{color:"red"}} onClick={(e)=>setCurrentStep(5)}>Technologies (Nombre de vulnérabilités : {impactfulVulnCountTech})</li> :
-                            <li className="mt-2" onClick={(e)=>setCurrentStep(5)}>Technologies (Nombre de vulnérabilités : {impactfulVulnCountTech})</li>
-                        }
-                        {
-                            impactfulVulnFoundMisconfig ?
-                            <li className="mt-2" style={{color:"red"}} onClick={(e)=>setCurrentStep(6)}>Mauvaises configurations (Nombre de vulnérabilités : {impactfulVulnCountMisconfig})</li> :
-                            <li className="mt-2" onClick={(e)=>setCurrentStep(6)}>Mauvaises configurations (Nombre de vulnérabilités : {impactfulVulnCountMisconfig})</li>
-                        }
-                        {
-                            impactfulVulnFoundCVEs ?
-                            <li className="mt-2" style={{color:"red"}} onClick={(e)=>setCurrentStep(7)}>CVE (Nombre de vulnérabilités : {impactfulVulnCountCVEs})</li> :
-                            <li className="mt-2" onClick={(e)=>setCurrentStep(7)}>CVE (Nombre de vulnérabilités : {impactfulVulnCountCVEs})</li>
-                        }
-                        {
-                            impactfulVulnFoundCNVD ?
-                            <li className="mt-2" style={{color:"red"}} onClick={(e)=>setCurrentStep(8)}>CNVD (Nombre de vulnérabilités : {impactfulVulnCountCNVD})</li> :
-                            <li className="mt-2" onClick={(e)=>setCurrentStep(8)}>CNVD (Nombre de vulnérabilités : {impactfulVulnCountCNVD})</li>
-                        }
-                        {
-                            impactfulVulnFoundExposed ?
-                            <li className="mt-2" style={{color:"red"}} onClick={(e)=>setCurrentStep(9)}>Services exposés (Nombre de vulnérabilités : {impactfulVulnCountExposed})</li> :
-                            <li className="mt-2" onClick={(e)=>setCurrentStep(9)}>Services exposés (Nombre de vulnérabilités : {impactfulVulnCountExposed})</li>
-                        }
-                        {
-                            impactfulVulnFoundExposure ?
-                            <li className="mt-2" style={{color:"red"}} onClick={(e)=>setCurrentStep(10)}>Surface exposée (Nombre de vulnérabilités : {impactfulVulnCountExposure})</li> :
-                            <li className="mt-2" onClick={(e)=>setCurrentStep(10)}>Surface exposée (Nombre de vulnérabilités : {impactfulVulnCountExposure})</li>
-                        }
-                        {
-                            impactfulVulnFoundMisc ?
-                            <li className="mt-2" style={{color:"red"}} onClick={(e)=>setCurrentStep(11)}>Divers (Nombre de vulnérabilités : {impactfulVulnCountMisc})</li> :
-                            <li className="mt-2" onClick={(e)=>setCurrentStep(11)}>Divers (Nombre de vulnérabilités : {impactfulVulnCountMisc})</li>
-                        }
-                        {
-                            impactfulVulnFoundNetwork ?
-                            <li className="mt-2" style={{color:"red"}} onClick={(e)=>setCurrentStep(12)}>Réseau (Nombre de vulnérabilités : {impactfulVulnCountNetwork})</li> :
-                            <li className="mt-2" onClick={(e)=>setCurrentStep(12)}>Réseau (Nombre de vulnérabilités : {impactfulVulnCountNetwork})</li>
-                        }
-                        {
-                            impactfulVulnFoundRs0n ?
-                            <li className="mt-2" style={{color:"red"}} onClick={(e)=>setCurrentStep(13)}>Rs0n (Nombre de vulnérabilités : {impactfulVulnCountRs0n})</li> :
-                            <li className="mt-2" onClick={(e)=>setCurrentStep(13)}>Rs0n (Nombre de vulnérabilités : {impactfulVulnCountRs0n})</li>
-                        }
-                        {
-                            impactfulVulnFoundHeadless ?
-                            <li className="mt-2" style={{color:"red"}} onClick={(e)=>setCurrentStep(14)}>Sans interface (Nombre de vulnérabilités : {impactfulVulnCountHeadless})</li> :
-                            <li className="mt-2" onClick={(e)=>setCurrentStep(14)}>Sans interface (Nombre de vulnérabilités : {impactfulVulnCountHeadless})</li>
-                        }
+                    <ul style={{listStyleType:"none"}}>
+                        {vulnerabilitySections.map((section) => {
+                            const spacingClass = section.step === 0 ? 'mt-4' : 'mt-2'
+                            const isActiveSection = currentStep === section.step
+
+                            return (
+                                <li
+                                    key={section.step}
+                                    className={spacingClass}
+                                    onClick={() => setCurrentStep(section.step)}
+                                    style={{
+                                        color: section.hasCriticalFinding ? 'red' : undefined,
+                                        fontWeight: isActiveSection ? 'bold' : undefined,
+                                        textDecoration: isActiveSection ? 'underline' : undefined,
+                                        cursor: 'pointer'
+                                    }}
+                                    role="button"
+                                    aria-current={isActiveSection ? 'step' : undefined}
+                                >
+                                    {`${section.label} (Nombre de vulnérabilités : ${section.count})`}
+                                </li>
+                            )
+                        })}
                     </ul>
                 </div>
             </div>
