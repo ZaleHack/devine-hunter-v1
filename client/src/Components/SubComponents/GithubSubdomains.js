@@ -14,7 +14,7 @@ const GithubSubdomains = props => {
 
     const notify = e => {
         navigator.clipboard.writeText(e.target.innerText)
-        toast(`Copied "${e.target.innerText}" to Clipboard`)
+        toast(`"${e.target.innerText}" copié dans le presse-papiers`)
     }
 
     useEffect(()=>{
@@ -60,11 +60,11 @@ const GithubSubdomains = props => {
             <div className="row">
                 <div className="col-12">
                     <Toaster />
-                <p><b>DETAILS: </b>Find additional subdomains on GitHub. Very useful during you recon phase, you will probably get some extras subdomains other tools didn’t find because not public.</p>
-                    <p><b>GOAL: </b>Scape public GitHub repos for additional subdomains.</p>
-                    <p><b>DOWNLOAD: </b><span onClick={notify}>git clone https://github.com/gwen001/github-search.git</span></p>
-                    <p><b>INSTALL: </b><span onClick={notify}>pip3 install -r requirements2.txt</span></p>
-                    <p><b>RUN: </b><span onClick={notify}>python3 github-subdomains.py -d {props.thisFqdn.fqdn} -t $github_apikey &et; githubsubdomains.{props.thisFqdn.fqdn}.txt; cat githubsubdomains.{props.thisFqdn.fqdn}.txt | xclip -i -selection clipboard</span></p>
+                <p><b>Détails&nbsp;:</b> Analyse les dépôts GitHub publics pour mettre au jour des sous-domaines supplémentaires souvent absents des autres outils.</p>
+                    <p><b>Objectif&nbsp;:</b> Explorer les projets publics de l’organisation afin d’extraire de nouveaux sous-domaines.</p>
+                    <p><b>Téléchargement&nbsp;:</b><span onClick={notify}>git clone https://github.com/gwen001/github-search.git</span></p>
+                    <p><b>Installation&nbsp;:</b><span onClick={notify}>pip3 install -r requirements2.txt</span></p>
+                    <p><b>Exécution&nbsp;:</b><span onClick={notify}>python3 github-subdomains.py -d {props.thisFqdn.fqdn} -t $github_apikey &gt; githubsubdomains.{props.thisFqdn.fqdn}.txt; cat githubsubdomains.{props.thisFqdn.fqdn}.txt | xclip -i -selection clipboard</span></p>
                 </div>
             </div>
             <div className="row">

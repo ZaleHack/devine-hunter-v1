@@ -14,7 +14,7 @@ const CloudRanges = props => {
 
     const notify = e => {
         navigator.clipboard.writeText(e.target.innerText)
-        toast(`Copied "${e.target.innerText}" to Clipboard`)
+        toast(`"${e.target.innerText}" copié dans le presse-papiers`)
     }
 
     useEffect(()=>{
@@ -60,10 +60,10 @@ const CloudRanges = props => {
             <div className="row">
                 <div className="col-12">
                     <Toaster />
-                    <p><b>DETAILS: </b>This tool proactively scans all of AWS's IP ranges looking for any servers running port 443.  The tool then pulls the TLS/SSL certificate from each of these servers and stores them in searchable JSON format.</p>
-                    <p><b>GOAL: </b>Identify servers hosted in AWS that are in scope but are likely not intended to be found by the developer.</p>
-                    <p><b>DOWNLOAD/INSTALL: </b><span onClick={notify}>https://github.com/R-s0n/Fire_Spreader.git</span></p>
-                    <p><b>RUN: </b><span onClick={notify}>python3 clear_sky.py -d {props.thisFqdn.fqdn}</span></p>
+                    <p><b>Détails&nbsp;:</b> Cet utilitaire explore proactivement toutes les plages d’adresses IP AWS pour repérer les serveurs exposant le port&nbsp;443, extrait leurs certificats TLS/SSL, puis consigne les résultats dans un JSON exploitable.</p>
+                    <p><b>Objectif&nbsp;:</b> Détecter les serveurs hébergés sur AWS et inclus dans le périmètre, mais susceptibles d’avoir été laissés hors des inventaires officiels.</p>
+                    <p><b>Téléchargement&nbsp;:</b><span onClick={notify}>https://github.com/R-s0n/Fire_Spreader.git</span></p>
+                    <p><b>Exécution&nbsp;:</b><span onClick={notify}>python3 clear_sky.py -d {props.thisFqdn.fqdn}</span></p>
                 </div>
             </div>
             <div className="row">

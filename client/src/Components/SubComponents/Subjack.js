@@ -8,7 +8,7 @@ const Subjack = props => {
 
     const notify = e => {
         navigator.clipboard.writeText(e.target.innerText)
-        toast(`Copied "${e.target.innerText}" to Clipboard`)
+        toast(`"${e.target.innerText}" copié dans le presse-papiers`)
     }
 
 
@@ -18,10 +18,10 @@ const Subjack = props => {
             <div className="row">
                 <div className="col-12">
                     <Toaster />
-                    <p><b>DETAILS: </b>Subjack is a Subdomain Takeover tool written in Go designed to scan a list of subdomains concurrently and identify ones that are able to be hijacked. With Go's speed and efficiency, this tool really stands out when it comes to mass-testing. Always double check the results manually to rule out false positives.</p>
-                    <p><b>GOAL: </b>Identify potential targets for a Hostile Subdomain Takeover attack.</p>
-                    <p><b>DOWNLOAD / INSTALL: </b><span onClick={notify}>go get github.com/haccer/subjack</span></p>
-                    <p><b>RUN: </b><span onClick={notify}>./subjack -w consolidated.{props.thisFqdn.fqdn}.txt -t 100 -timeout 45 -o subjack.{props.thisFqdn.fqdn}.txt -ssl</span></p>
+                    <p><b>Détails&nbsp;:</b>Subjack est un outil Go de détection de prises de contrôle de sous-domaines. Il scanne rapidement une liste pour repérer ceux susceptibles d’être détournés. Vérifiez toujours les résultats pour éviter les faux positifs.</p>
+                    <p><b>Objectif&nbsp;:</b> Repérer les cibles potentielles d’une prise de contrôle hostile de sous-domaine.</p>
+                    <p><b>Téléchargement / installation&nbsp;:</b><span onClick={notify}>go get github.com/haccer/subjack</span></p>
+                    <p><b>Exécution&nbsp;:</b><span onClick={notify}>./subjack -w consolidated.{props.thisFqdn.fqdn}.txt -t 100 -timeout 45 -o subjack.{props.thisFqdn.fqdn}.txt -ssl</span></p>
                 </div>
             </div>
             <div className="row">

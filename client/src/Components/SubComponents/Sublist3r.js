@@ -14,7 +14,7 @@ const Sublist3r = props => {
 
     const notify = e => {
         navigator.clipboard.writeText(e.target.innerText)
-        toast(`Copied "${e.target.innerText}" to Clipboard`)
+        toast(`"${e.target.innerText}" copié dans le presse-papiers`)
     }
 
     useEffect(()=>{
@@ -60,11 +60,11 @@ const Sublist3r = props => {
             <div className="row">
                 <div className="col-12">
                     <Toaster />
-                    <p><b>DETAILS: </b> Sublist3r is a python tool designed to enumerate subdomains of websites using OSINT. It helps penetration testers and bug hunters collect and gather subdomains for the domain they are targeting. Sublist3r enumerates subdomains using many search engines such as Google, Yahoo, Bing, Baidu and Ask. Sublist3r also enumerates subdomains using Netcraft, Virustotal, ThreatCrowd, DNSdumpster and ReverseDNS.</p>
-                    <p><b>GOAL: </b>Identify valid sub-domains of the current FQDN to help build a complete picture of the application.</p>
-                    <p><b>DOWNLOAD: </b><span onClick={notify}>sudo git clone https://github.com/aboul3la/Sublist3r.git</span></p>
-                    <p><b>INSTALL: </b><span onClick={notify}>sudo pip install -r requirements.txt</span></p>
-                    <p><b>RUN: </b><span onClick={notify}>sudo python3 sublist3r.py -d {props.thisFqdn.fqdn} -t 50 -o sublist3r.{props.thisFqdn.fqdn}.txt -v; cat sublist3r.{props.thisFqdn.fqdn}.txt | xclip -i -selection clipboard</span></p>
+                    <p><b>Détails&nbsp;:</b> Sublist3r est un outil Python qui énumère les sous-domaines à l’aide de sources OSINT. Il aide les chercheurs en sécurité et les chasseurs de bugs à collecter rapidement les sous-domaines d’un domaine cible en s’appuyant sur de nombreux moteurs de recherche (Google, Yahoo, Bing, Baidu, Ask) ainsi que sur Netcraft, VirusTotal, ThreatCrowd, DNSdumpster et ReverseDNS.</p>
+                    <p><b>Objectif&nbsp;:</b> Recenser les sous-domaines valides du FQDN analysé afin d’obtenir une vision complète de la surface d’attaque.</p>
+                    <p><b>Téléchargement&nbsp;:</b><span onClick={notify}>sudo git clone https://github.com/aboul3la/Sublist3r.git</span></p>
+                    <p><b>Installation&nbsp;:</b><span onClick={notify}>sudo pip install -r requirements.txt</span></p>
+                    <p><b>Exécution&nbsp;:</b><span onClick={notify}>sudo python3 sublist3r.py -d {props.thisFqdn.fqdn} -t 50 -o sublist3r.{props.thisFqdn.fqdn}.txt -v; cat sublist3r.{props.thisFqdn.fqdn}.txt | xclip -i -selection clipboard</span></p>
                 </div>
             </div>
             <div className="row">

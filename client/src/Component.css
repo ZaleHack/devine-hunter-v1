@@ -64,3 +64,41 @@
     background: rgba(255, 255, 255, 0.95);
     box-shadow: 0 18px 50px rgba(15, 23, 42, 0.12);
 }
+
+.modern-toolbar {
+    background: linear-gradient(135deg, #b71c1c, #ff5f5f);
+    border-radius: 18px;
+    border-bottom: 2px solid #b71c1c;
+    box-shadow: 0 18px 45px rgba(183, 28, 28, 0.35);
+    padding: 0.75rem 1.25rem;
+}
+
+.modern-toolbar .btn-elevated {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 999px;
+    border: none;
+    color: #ffffff !important;
+    box-shadow: 0 12px 35px rgba(15, 23, 42, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modern-toolbar .btn-elevated:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.25);
+}
+
+.modern-toolbar .btn-outline-light {
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    color: #ffffff !important;
+    background: transparent;
+}
+
+.toolbar-text {
+    color: #ffe5e5;
+}
+
+.toolbar-link {
+    color: #ffffff;
+    text-decoration: underline;
+}

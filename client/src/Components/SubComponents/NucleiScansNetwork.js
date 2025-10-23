@@ -12,7 +12,7 @@ const NucleiScans = props => {
 
     const notify = e => {
         navigator.clipboard.writeText(e.target.innerText)
-        toast(`Copied "${e.target.innerText}" to Clipboard`)
+        toast(`"${e.target.innerText}" copié dans le presse-papiers`)
     }
 
     useEffect(()=>{
@@ -60,39 +60,39 @@ const NucleiScans = props => {
                     {
                         vulnList.filter(vuln => vulnList.indexOf(vuln) === currentVuln).map(filteredVuln => (
                             <>
-                            <p><b>Name:</b> {filteredVuln.info.name}</p>
-                            <p><b>Template ID:</b> {filteredVuln['template-id']}</p>
-                            <p><b>Tags:</b> {filteredVuln.info.tags?.length > 0 ? filteredVuln.info.tags.map((tag) => <>{tag}&nbsp;&nbsp;</>) : <>No Tags</>}</p>
-                            <p><b>Severity:</b> {filteredVuln.info.severity}</p>
-                            <p><b>Description:</b> {filteredVuln.info.description}</p>
-                            <p><b>Host:</b> <a href={"http://" + filteredVuln.host} target="_blank" rel="noreferrer">{filteredVuln.host}</a></p>
-                            <p><b>Matched:</b> <a href={filteredVuln['matched-at']} target="_blank" rel="noreferrer">{filteredVuln['matched-at']}</a></p>
-                            <p><b>Match Type:</b> {filteredVuln['matcher-name']}</p>
-                            <p><b>IP:</b> {filteredVuln.ip}</p>
-                            <p><b>Extracted Results:</b> 
+                            <p><b>Nom&nbsp;:</b> {filteredVuln.info.name}</p>
+                            <p><b>ID du modèle&nbsp;:</b> {filteredVuln['template-id']}</p>
+                            <p><b>Étiquettes&nbsp;:</b> {filteredVuln.info.tags?.length > 0 ? filteredVuln.info.tags.map((tag) => <>{tag}&nbsp;&nbsp;</>) : <>Aucune étiquette</>}</p>
+                            <p><b>Sévérité&nbsp;:</b> {filteredVuln.info.severity}</p>
+                            <p><b>Description&nbsp;:</b> {filteredVuln.info.description}</p>
+                            <p><b>Hôte&nbsp;:</b> <a href={"http://" + filteredVuln.host} target="_blank" rel="noreferrer">{filteredVuln.host}</a></p>
+                            <p><b>Correspondance&nbsp;:</b> <a href={filteredVuln['matched-at']} target="_blank" rel="noreferrer">{filteredVuln['matched-at']}</a></p>
+                            <p><b>Type de correspondance&nbsp;:</b> {filteredVuln['matcher-name']}</p>
+                            <p><b>IP&nbsp;:</b> {filteredVuln.ip}</p>
+                            <p><b>Résultats extraits&nbsp;:</b> 
                             <ul>
                             {
                                 filteredVuln['extracted-results'] && filteredVuln['extracted-results'].length > 0 ? filteredVuln['extracted-results'].map((result, i)=>{
                                     return (
                                         <li key={i} style={{listStyleType:"none"}}>{result}</li>
                                     )
-                                }) : <p>No Extracted Results</p>
+                                }) : <p>Aucun résultat extrait</p>
                             }
                             </ul>   
                             </p>
-                            <p><b>References:</b> 
+                            <p><b>Références&nbsp;:</b> 
                             <ul>
                             {
                                 filteredVuln.info.reference && filteredVuln.info.reference.length > 0 ? filteredVuln.info.reference.map((reference, i)=>{
                                     return (
                                         <li key={i} style={{listStyleType:"none"}}><a href={reference}  target="_blank" rel="noreferrer">{reference}</a></li>
                                     )
-                                }) : <p>No References</p>
+                                }) : <p>Aucune référence</p>
                             }
                             </ul>   
                             </p>
-                            <p><b>Curl Command:</b> {filteredVuln['curl-command']}</p>
-                            <p><b>Discovered:</b> {filteredVuln.timestamp}</p>
+                            <p><b>Commande curl&nbsp;:</b> {filteredVuln['curl-command']}</p>
+                            <p><b>Découvert&nbsp;:</b> {filteredVuln.timestamp}</p>
                             </>
                         ))
                     }

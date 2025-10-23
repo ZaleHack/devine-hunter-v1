@@ -65,7 +65,7 @@ const Consolidator = props => {
             return (copyString += fqdn + "\n")
         })
         navigator.clipboard.writeText(copyString);
-        toast(`Consolidated List copied to Clipboard`);
+        toast(`Liste consolidée copiée dans le presse-papiers`);
     }
 
 
@@ -74,15 +74,15 @@ const Consolidator = props => {
         <div className="container mt-5">
             <div className="row">
                 <div className="col-12">
-                    <p>This tool will consolidate any lists of subdomains that have been uploaded through the tools above.  Click the button below and a comprehensive list of all unique subdomains will be dynamically renderred.  This can take some time depending on the size of the lists, so please be patient.</p>
-                    <p>After running the tool, paste the list in a newly created file using the following command: <span onClick={notify}>vim consolidated.{props.thisFqdn.fqdn}.txt</span></p>
-                    <button className="btn btn-primary" onClick={consolidate}>Consolidate</button>
+                    <p>Cet outil fusionne toutes les listes de sous-domaines chargées via les modules précédents. Cliquez sur le bouton pour produire dynamiquement une liste unique. Selon la taille des jeux de données, l’opération peut durer quelques instants.</p>
+                    <p>Après exécution, collez le résultat dans un nouveau fichier avec la commande suivante&nbsp;: <span onClick={notify}>vim consolidated.{props.thisFqdn.fqdn}.txt</span></p>
+                    <button className="btn btn-primary" onClick={consolidate}>Consolider</button>
                 </div>
             </div>
             <div className="row mt-5">
                 <div style={{width: '400px', height: '500px', overflowY: 'scroll', border: '1px solid black'}}className="col-5 ml-5">
-                    <button className="btn btn-primary mt-3 btn-sm float-right" onClick={notify}>Copy</button>
-                    <h5 className="mt-3">Consolidated List ({consolidatedList.length})</h5>
+                    <button className="btn btn-primary mt-3 btn-sm float-right" onClick={notify}>Copier</button>
+                    <h5 className="mt-3">Liste consolidée ({consolidatedList.length})</h5>
                     <hr className="mt-3 mb-1"/>
                     { loaded === true ?
                         consolidatedList.map((subdomain, i)=>{
@@ -92,8 +92,8 @@ const Consolidator = props => {
                     }
                 </div>
                 <div style={{width: '400px', height: '500px', overflowY: 'scroll', border: '1px solid black'}}className="col-5 ml-5">
-                    <button className="btn btn-primary mt-3 btn-sm float-right" onClick={notify}>Copy</button>
-                    <h5 className="mt-3">New Subdomains ({consolidatedNewList.length})</h5>
+                    <button className="btn btn-primary mt-3 btn-sm float-right" onClick={notify}>Copier</button>
+                    <h5 className="mt-3">Nouveaux sous-domaines ({consolidatedNewList.length})</h5>
                     <hr className="mt-3 mb-1"/>
                     { loaded === true ?
                         consolidatedNewList.map((subdomain, i)=>{

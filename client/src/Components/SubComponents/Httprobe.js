@@ -14,7 +14,7 @@ const Httprobe = props => {
 
     const notify = e => {
         navigator.clipboard.writeText(e.target.innerText)
-        toast(`Copied "${e.target.innerText}" to Clipboard`)
+        toast(`"${e.target.innerText}" copié dans le presse-papiers`)
     }
 
     useEffect(()=>{
@@ -60,11 +60,11 @@ const Httprobe = props => {
             <div className="row">
                 <div className="col-12">
                     <Toaster />
-                    <p><b>DETAILS: </b>Take a list of domains and probe for working http and https servers.</p>
-                    <p><b>GOAL: </b>Iterate through the list of unique FQDNs to identify all domain names that are being hosted on live servers.</p>
-                    <p><b>DOWNLOAD / Install: </b><span onClick={notify}>go get -u github.com/tomnomnom/httprobe</span></p>
-                    <p><b>RUN (Shallow): </b><span onClick={notify}>cat consolidated.{props.thisFqdn.fqdn}.txt | httprobe &gt; httprobe.{props.thisFqdn.fqdn}.txt; cat httprobe.{props.thisFqdn.fqdn}.txt | xclip -i -selection clipboard</span></p>
-                    <p><b>RUN (Deep): </b><span onClick={notify}>cat consolidated.{props.thisFqdn.fqdn}.txt | httprobe &gt; httprobe.{props.thisFqdn.fqdn}.txt; cat httprobe.{props.thisFqdn.fqdn}.txt | xclip -i -selection clipboard</span></p>
+                    <p><b>Détails&nbsp;:</b> Analyse une liste de domaines et vérifie quels serveurs HTTP/HTTPS répondent réellement.</p>
+                    <p><b>Objectif&nbsp;:</b> Parcourir la liste des FQDN uniques pour identifier ceux qui pointent vers des serveurs actifs.</p>
+                    <p><b>Téléchargement / Installation&nbsp;:</b><span onClick={notify}>go get -u github.com/tomnomnom/httprobe</span></p>
+                    <p><b>Exécution (rapide)&nbsp;:</b><span onClick={notify}>cat consolidated.{props.thisFqdn.fqdn}.txt | httprobe &gt; httprobe.{props.thisFqdn.fqdn}.txt; cat httprobe.{props.thisFqdn.fqdn}.txt | xclip -i -selection clipboard</span></p>
+                    <p><b>Exécution (approfondie)&nbsp;:</b><span onClick={notify}>cat consolidated.{props.thisFqdn.fqdn}.txt | httprobe &gt; httprobe.{props.thisFqdn.fqdn}.txt; cat httprobe.{props.thisFqdn.fqdn}.txt | xclip -i -selection clipboard</span></p>
                 </div>
             </div>
             <div className="row">

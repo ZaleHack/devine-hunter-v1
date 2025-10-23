@@ -15,38 +15,38 @@ const Creative = props => {
         <div className="container-fluid">
             <div className="row">
         <div className="bg-secondary checklistStyle pt-2 ml-4 col-3">
-            <h4 className="ml-3 pt-2">Creative Application Testing</h4>
+            <h4 className="ml-3 pt-2">Tests applicatifs créatifs</h4>
             <ul>
-                <li style={{fontWeight: "bold"}}>External Identify Access Management (IAM) Testing</li>
+                <li style={{fontWeight: "bold"}}>Tests d’identités et d’accès externes (IAM)</li>
                 <ul>
-                    <li onClick={(e)=>setCurrentStep(0)}>OAuth Misconfiguration</li>
-                    <li onClick={(e)=>setCurrentStep(1)}>SAML Misconfiguration</li>
-                    <li onClick={(e)=>setCurrentStep(1)}>Google Firebase IAM Misconfiguration</li>
-                    <li onClick={(e)=>setCurrentStep(1)}>Keycloak IAM Misconfiguration</li>
+                    <li onClick={(e)=>setCurrentStep(0)}>Mauvaise configuration OAuth</li>
+                    <li onClick={(e)=>setCurrentStep(1)}>Mauvaise configuration SAML</li>
+                    <li onClick={(e)=>setCurrentStep(1)}>Mauvaise configuration IAM Google Firebase</li>
+                    <li onClick={(e)=>setCurrentStep(1)}>Mauvaise configuration IAM Keycloak</li>
                 </ul>
-                <li style={{fontWeight: "bold"}}>Application Logic Testing</li>
+                <li style={{fontWeight: "bold"}}>Tests de logique applicative</li>
                 <ul>
-                    <li onClick={(e)=>setCurrentStep(2)}>In-Direct Object Reference (IDOR) - Read/Write</li>
-                    <li onClick={(e)=>setCurrentStep(3)}>In-Direct Object Reference (IDOR) - Read Only</li>
-                    <li onClick={(e)=>setCurrentStep(2)}>Insufficient Access Controls - Read/Write</li>
-                    <li onClick={(e)=>setCurrentStep(3)}>Insufficient Access Controls - Read Only</li>
-                    <li onClick={(e)=>setCurrentStep(2)}>Bypass Access Controls - Read/Write</li>
-                    <li onClick={(e)=>setCurrentStep(3)}>Bypass Access Controls - Read Only</li>
-                    <li onClick={(e)=>setCurrentStep(3)}>2FA/MFA Bypass</li>
-                    <li onClick={(e)=>setCurrentStep(3)}>Captcha Bypass</li>
-                    <li onClick={(e)=>setCurrentStep(3)}>Rate Limiting/Brute-force Bypass</li>
-                    <li onClick={(e)=>setCurrentStep(3)}>Bypass Registration Restrictions</li>
-                    <li onClick={(e)=>setCurrentStep(3)}>Bypass Payment Process Restrictions</li>
-                    <li onClick={(e)=>setCurrentStep(3)}>Bypass Password Reset Restrictions</li>
-                    <li onClick={(e)=>setCurrentStep(3)}>Race Conditions</li>
-                    <li onClick={(e)=>setCurrentStep(3)}>Username Enumeration</li>
+                    <li onClick={(e)=>setCurrentStep(2)}>Référence d’objet indirecte (IDOR) - Lecture/Écriture</li>
+                    <li onClick={(e)=>setCurrentStep(3)}>Référence d’objet indirecte (IDOR) - Lecture seule</li>
+                    <li onClick={(e)=>setCurrentStep(2)}>Contrôles d’accès insuffisants - Lecture/Écriture</li>
+                    <li onClick={(e)=>setCurrentStep(3)}>Contrôles d’accès insuffisants - Lecture seule</li>
+                    <li onClick={(e)=>setCurrentStep(2)}>Contournement des contrôles d’accès - Lecture/Écriture</li>
+                    <li onClick={(e)=>setCurrentStep(3)}>Contournement des contrôles d’accès - Lecture seule</li>
+                    <li onClick={(e)=>setCurrentStep(3)}>Contournement 2FA/MFA</li>
+                    <li onClick={(e)=>setCurrentStep(3)}>Contournement de CAPTCHA</li>
+                    <li onClick={(e)=>setCurrentStep(3)}>Contournement du rate limiting / brute force</li>
+                    <li onClick={(e)=>setCurrentStep(3)}>Contournement des restrictions d’inscription</li>
+                    <li onClick={(e)=>setCurrentStep(3)}>Contournement des restrictions de paiement</li>
+                    <li onClick={(e)=>setCurrentStep(3)}>Contournement des restrictions de réinitialisation de mot de passe</li>
+                    <li onClick={(e)=>setCurrentStep(3)}>Conditions de concurrence</li>
+                    <li onClick={(e)=>setCurrentStep(3)}>Énumération de noms d’utilisateur</li>
                 </ul>
-                <li style={{fontWeight: "bold"}}>Public Repository & OSINT Testing</li>
+                <li style={{fontWeight: "bold"}}>Tests OSINT et dépôts publics</li>
                 <ul>
-                    <li onClick={(e)=>setCurrentStep(0)}>Internal Source Code on Public GitHub Repo</li>
-                    <li onClick={(e)=>setCurrentStep(1)}>Internal/Priviledged Creds on Public GitHub Repo</li>
-                    <li onClick={(e)=>setCurrentStep(1)}>Internal Source Code Found in Web Scraping</li>
-                    <li onClick={(e)=>setCurrentStep(1)}>Internal/Priviledged Creds Found in Web Scraping</li>
+                    <li onClick={(e)=>setCurrentStep(0)}>Code source interne sur un dépôt GitHub public</li>
+                    <li onClick={(e)=>setCurrentStep(1)}>Identifiants internes/privilégiés sur un dépôt GitHub public</li>
+                    <li onClick={(e)=>setCurrentStep(1)}>Code source interne découvert par web scraping</li>
+                    <li onClick={(e)=>setCurrentStep(1)}>Identifiants internes/privilégiés trouvés par web scraping</li>
                 </ul>
             </ul>
         </div>

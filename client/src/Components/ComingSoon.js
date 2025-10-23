@@ -7,7 +7,7 @@ const ComingSoon = props => {
         <div className="bg-secondary dashboard">
             <div className="row pl-5">
                 <div className="col-12">
-                    <h1>Coming Soon...</h1>
+                    <h1>Bientôt disponible...</h1>
                 </div>
             </div>
         </div>

@@ -32,16 +32,16 @@ const GithubSearchResults = props => {
     return (
         <div className="row mt-1">
             <div className="col-12">
-                <h5>Results:</h5>
+                <h5>Résultats&nbsp;:</h5>
                 <div style={resultsStyle}>
                 {
                     loaded === true ?
                     searchResults.map((search, i)=>{
                         return (
                             <div key={i} style={{marginBottom:'1px', marginLeft:'15px'}}>
-                                <p className="m-0">Payload: {search.payload}</p>
-                                <p className="m-0">Result Count: {search.results}</p>
-                                <p className="m-0 mb-3">Link: <a href={search.url} target="_blank" rel="noreferrer">{search.url}</a></p>
+                                <p className="m-0">Requête&nbsp;: {search.payload}</p>
+                                <p className="m-0">Nombre de résultats&nbsp;: {search.results}</p>
+                                <p className="m-0 mb-3">Lien&nbsp;: <a href={search.url} target="_blank" rel="noreferrer">{search.url}</a></p>
                             </div>
                         )
                     }) :
@@ -50,7 +50,7 @@ const GithubSearchResults = props => {
                 </div>
             </div>
             <div className="col-4 mt-2">
-                <button className="btn btn-primary" onClick={deleteSubdomains}>Delete</button>
+                <button className="btn btn-primary" onClick={deleteSubdomains}>Supprimer</button>
             </div>
         </div>
     )

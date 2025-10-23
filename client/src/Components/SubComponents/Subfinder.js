@@ -14,7 +14,7 @@ const Subfinder = props => {
 
     const notify = e => {
         navigator.clipboard.writeText(e.target.innerText)
-        toast(`Copied "${e.target.innerText}" to Clipboard`)
+        toast(`"${e.target.innerText}" copié dans le presse-papiers`)
     }
 
     useEffect(()=>{
@@ -59,11 +59,11 @@ const Subfinder = props => {
         <div className="container mt-1">
             <div className="row">
                 <div className="col-12">
-                    <p><b>DETAILS: </b>Subfinder is a subdomain discovery tool that discovers valid subdomains for websites by using passive online sources. It has a simple modular architecture and is optimized for speed. subfinder is built for doing one thing only - passive subdomain enumeration, and it does that very well.</p>
-                    <p><b>GOAL: </b>Identify valid sub-domains of the current FQDN to help build a complete picture of the application.</p>
-                    <p><b>DOWNLOAD: </b><span onClick={notify}>GO111MODULE=on go get -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder</span></p>
-                    <p><b>INSTALL: </b>Subfinder will work after using the installation instructions however to configure Subfinder to work with certain services, you will need to have setup API keys.  Theses values are stored in the $HOME/.config/subfinder/config.yaml file which will be created when you run the tool for the first time. The configuration file uses the YAML format. Multiple API keys can be specified for each of these services from which one of them will be used for enumeration.  For sources that require multiple keys, namely Censys, Passivetotal, they can be added by separating them via a colon (:).</p>
-                    <p><b>RUN: </b><span onClick={notify}>./subfinder -d {props.thisFqdn.fqdn} -o subfinder.{props.thisFqdn.fqdn}.txt; cat subfinder.{props.thisFqdn.fqdn}.txt | xclip -i -selection clipboard</span></p>
+                    <p><b>Détails&nbsp;:</b>Subfinder est un outil d’énumération passive des sous-domaines. Sa structure modulaire et optimisée offre une collecte rapide à partir de sources en ligne accessibles publiquement.</p>
+                    <p><b>Objectif&nbsp;:</b> Recenser les sous-domaines du FQDN étudié pour compléter la vue d’ensemble de l’application.</p>
+                    <p><b>Téléchargement&nbsp;:</b><span onClick={notify}>GO111MODULE=on go get -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder</span></p>
+                    <p><b>Installation&nbsp;:</b> Après l’installation de base, certaines sources nécessitent des clés API à renseigner dans le fichier <code>$HOME/.config/subfinder/config.yaml</code> (créé lors du premier lancement). Le fichier YAML peut contenir plusieurs clés par service&nbsp;; l’outil choisira automatiquement l’une d’elles pour l’énumération. Pour les sources comme Censys ou PassiveTotal, ajoutez plusieurs clés en les séparant par un deux-points (:).</p>
+                    <p><b>Exécution&nbsp;:</b><span onClick={notify}>./subfinder -d {props.thisFqdn.fqdn} -o subfinder.{props.thisFqdn.fqdn}.txt; cat subfinder.{props.thisFqdn.fqdn}.txt | xclip -i -selection clipboard</span></p>
                 </div>
             </div>
             <div className="row">

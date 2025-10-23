@@ -14,7 +14,7 @@ const Shosubgo = props => {
 
     const notify = e => {
         navigator.clipboard.writeText(e.target.innerText)
-        toast(`Copied "${e.target.innerText}" to Clipboard`)
+        toast(`"${e.target.innerText}" copié dans le presse-papiers`)
     }
 
     useEffect(()=>{
@@ -60,11 +60,11 @@ const Shosubgo = props => {
             <div className="row">
                 <div className="col-12">
                     <Toaster />
-                    <p><b>DETAILS: </b>Small tool to Grab subdomains using Shodan api.</p>
-                    <p><b>GOAL: </b>Identify valid sub-domains of the current FQDN to help build a complete picture of the application.</p>
-                    <p><b>DOWNLOAD: </b><span onClick={notify}>git clone https://github.com/pownx/shosubgo.git</span></p>
-                    <p><b>INSTALL: </b><span onClick={notify}>apt-get install golang</span></p>
-                    <p><b>RUN: </b><span onClick={notify}>go run main.go -d {props.thisFqdn.fqdn} -s $shodan_key &gt; shosubgo.{props.thisFqdn.fqdn}.txt;  cat shosubgo.{props.thisFqdn.fqdn}.txt | xclip -i -selection clipboard</span></p>
+                    <p><b>Détails&nbsp;:</b> Petit utilitaire exploitant l’API Shodan pour récupérer rapidement des sous-domaines.</p>
+                    <p><b>Objectif&nbsp;:</b> Recenser les sous-domaines du FQDN étudié afin de compléter la cartographie de l’application.</p>
+                    <p><b>Téléchargement&nbsp;:</b><span onClick={notify}>git clone https://github.com/pownx/shosubgo.git</span></p>
+                    <p><b>Installation&nbsp;:</b><span onClick={notify}>apt-get install golang</span></p>
+                    <p><b>Exécution&nbsp;:</b><span onClick={notify}>go run main.go -d {props.thisFqdn.fqdn} -s $shodan_key &gt; shosubgo.{props.thisFqdn.fqdn}.txt;  cat shosubgo.{props.thisFqdn.fqdn}.txt | xclip -i -selection clipboard</span></p>
                 </div>
             </div>
             <div className="row">

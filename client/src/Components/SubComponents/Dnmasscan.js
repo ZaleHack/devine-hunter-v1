@@ -14,7 +14,7 @@ const Dnmasscan = props => {
 
     const notify = e => {
         navigator.clipboard.writeText(e.target.innerText)
-        toast(`Copied "${e.target.innerText}" to Clipboard`)
+        toast(`"${e.target.innerText}" copié dans le presse-papiers`)
     }
 
     useEffect(()=>{
@@ -60,11 +60,11 @@ const Dnmasscan = props => {
             <div className="row">
                 <div className="col-12">
                         <Toaster />
-                    <p><b>DETAILS: </b>Dnmasscan is a bash script to automate resolving a file of domain names and subsequentlly scanning them using masscan.  As masscan does not accept domain names, a file is created (specified in the second argument to the script) which will log which IP addresses resolve to which domain names for cross reference after the script has finished executing.</p>
-                    <p><b>GOAL: </b>Using the consolidated list of subdomains, this tool will identify a large number of the servers our target is running and perform a full port scan on them.</p>
-                    <p><b>DOWNLOAD: </b><span onClick={notify}>https://github.com/rastating/dnmasscan.git</span></p>
-                    <p><b>INSTALL: </b><span onClick={notify}>sudo apt-get --assume-yes install git make gcc; git clone https://github.com/robertdavidgraham/masscan; cd masscan; make; make install;</span></p>
-                    <p><b>RUN: </b><span onClick={notify}>sudo ./dnmasscan /tmp/dnmasscan.tmp /tmp/dns.log -p1-65535 --rate=500 | xclip -i -selection clipboard</span></p>
+                    <p><b>Détails&nbsp;:</b>Dnmasscan est un script Bash qui automatise la résolution d’une liste de domaines puis leur scan avec masscan. Comme masscan n’accepte pas directement les noms de domaine, un fichier temporaire consigne les correspondances IP/domaine pour consultation après l’exécution.</p>
+                    <p><b>Objectif&nbsp;:</b> À partir de la liste consolidée des sous-domaines, identifier un maximum de serveurs actifs et réaliser un scan complet des ports.</p>
+                    <p><b>Téléchargement&nbsp;:</b><span onClick={notify}>https://github.com/rastating/dnmasscan.git</span></p>
+                    <p><b>Installation&nbsp;:</b><span onClick={notify}>sudo apt-get --assume-yes install git make gcc; git clone https://github.com/robertdavidgraham/masscan; cd masscan; make; make install;</span></p>
+                    <p><b>Exécution&nbsp;:</b><span onClick={notify}>sudo ./dnmasscan /tmp/dnmasscan.tmp /tmp/dns.log -p1-65535 --rate=500 | xclip -i -selection clipboard</span></p>
                 </div>
             </div>
             <div className="row">
