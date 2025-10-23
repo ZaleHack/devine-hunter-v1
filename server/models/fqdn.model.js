@@ -1,5 +1,120 @@
 const mongoose = require('mongoose');
 
+const ensureArrayPaths = [
+    'dns.arecord',
+    'dns.aaaarecord',
+    'dns.cnamerecord',
+    'dns.mxrecord',
+    'dns.txtrecord',
+    'dns.node',
+    'dns.nsrecord',
+    'dns.srvrecord',
+    'dns.ptrrecord',
+    'dns.spfrecord',
+    'dns.soarecord',
+    'aws.s3',
+    'aws.ec2',
+    'aws.cloudfront',
+    'aws.elb',
+    'aws.documentdb',
+    'aws.api_gateway',
+    'aws.elasticbeanstalk',
+    'gcp.bucket',
+    'ips',
+    'subnets',
+    'asns',
+    'isps',
+    'recon.subdomains.gospider',
+    'recon.subdomains.hakrawler',
+    'recon.subdomains.subdomainizer',
+    'recon.subdomains.sublist3r',
+    'recon.subdomains.amass',
+    'recon.subdomains.assetfinder',
+    'recon.subdomains.gau',
+    'recon.subdomains.ctl',
+    'recon.subdomains.shosubgo',
+    'recon.subdomains.subfinder',
+    'recon.subdomains.githubSearch',
+    'recon.subdomains.shuffledns',
+    'recon.subdomains.shufflednsCustom',
+    'recon.subdomains.cloudRanges',
+    'recon.subdomains.consolidated',
+    'recon.subdomains.consolidatedNew',
+    'recon.subdomains.httprobe',
+    'recon.subdomains.httprobeAdded',
+    'recon.subdomains.httprobeRemoved',
+    'recon.subdomains.masscan',
+    'recon.subdomains.masscanAdded',
+    'recon.subdomains.masscanRemoved',
+    'recon.subdomains.masscanLive',
+    'recon.osint.notableRepos',
+    'recon.osint.GithubSearch',
+    'recon.osint.GithubUsers',
+    'recon.osint.Google',
+    'recon.osint.Shodan',
+    'recon.osint.Censys',
+    'vulns',
+    'vulnsSSL',
+    'vulnsFile',
+    'vulnsDNS',
+    'vulnsVulns',
+    'vulnsTech',
+    'vulnsMisconfig',
+    'vulnsCVEs',
+    'vulnsCNVD',
+    'vulnsExposed',
+    'vulnsExposure',
+    'vulnsMisc',
+    'vulnsNetwork',
+    'vulnsRs0n',
+    'vulnsHeadless',
+    'targetUrls'
+];
+
+const ensureNestedArray = (doc, path, shouldMarkModified = false) => {
+    const segments = path.split('.');
+    let current = doc;
+
+    for (let i = 0; i < segments.length - 1; i++) {
+        const key = segments[i];
+        if (current[key] === undefined || current[key] === null) {
+            current[key] = {};
+        }
+        current = current[key];
+    }
+
+    const lastKey = segments[segments.length - 1];
+    if (!Array.isArray(current[lastKey])) {
+        current[lastKey] = [];
+        if (shouldMarkModified && typeof doc.markModified === 'function') {
+            doc.markModified(path);
+        }
+    }
+};
+
+const ensureFqdnDefaults = (doc, { markModified = false } = {}) => {
+    if (!doc) {
+        return;
+    }
+
+    ensureArrayPaths.forEach((path) => ensureNestedArray(doc, path, markModified));
+
+    const rawAzure = doc.azure && typeof doc.azure.toObject === 'function' ? doc.azure.toObject() : (doc.azure || {});
+    if (rawAzure.placeholder === undefined) {
+        rawAzure.placeholder = '';
+    }
+
+    if (typeof doc.set === 'function') {
+        doc.set('azure', rawAzure);
+    } else {
+        doc.azure = rawAzure;
+    }
+
+    if (markModified && typeof doc.markModified === 'function') {
+        doc.markModified('azure');
+    }
+};
+
 const FqdnSchema = new mongoose.Schema({
     fqdn: {type:String},
     dns: {
@@ -634,5 +749,30 @@ const FqdnSchema = new mongoose.Schema({
         type: String
     }]
 }, {timestamps: true});
+
+FqdnSchema.pre('validate', function(next) {
+    ensureFqdnDefaults(this, { markModified: true });
+    next();
+});
+
+FqdnSchema.post('init', function(doc) {
+    ensureFqdnDefaults(doc);
+});
+
+FqdnSchema.post('save', function(doc) {
+    ensureFqdnDefaults(doc);
+});
+
+FqdnSchema.post('find', function(docs) {
+    docs.forEach((doc) => ensureFqdnDefaults(doc));
+});
+
+FqdnSchema.post('findOne', function(doc) {
+    ensureFqdnDefaults(doc);
+});
+
+FqdnSchema.post('findOneAndUpdate', function(doc) {
+    ensureFqdnDefaults(doc);
+});
 
 module.exports.Fqdn = mongoose.model("Fqdn", FqdnSchema);
