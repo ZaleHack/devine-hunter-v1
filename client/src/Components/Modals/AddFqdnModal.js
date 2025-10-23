@@ -13,8 +13,7 @@ const normalizeFqdn = (value) => {
 
     const withoutScheme = trimmed.replace(/^(?:https?:\/\/)/i, '');
     const withoutCredentials = withoutScheme.replace(/^[^@]+@/, '');
-    const withoutPrefix = withoutCredentials.replace(/^www\./i, '');
-    const withoutPath = withoutPrefix.split(/[/?#]/)[0];
+    const withoutPath = withoutCredentials.split(/[/?#]/)[0];
     const withoutTrailingDot = withoutPath.replace(/\.+$/, '');
     const withoutRegexChars = withoutTrailingDot.replace(/[\\^$]/g, '');
 

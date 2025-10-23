@@ -2,6 +2,7 @@ const { Fqdn } = require("../models/fqdn.model");
 const { Url } = require("../models/url.model");
 const { Cve } = require("../models/cve.model");
 const { Log } = require("../models/log.model");
+const { normalizeFqdn, buildFqdnQuery } = require("../utils/fqdn");
 const util = require('util');
 const exec = require('child_process').exec;
 const spawn = require('child_process').spawn;
@@ -9,30 +10,6 @@ const execFile = require('child_process').execFile;
 const execSync = util.promisify(require('child_process').execSync);
 const axios = require('axios');
 const https = require('https');
-
-const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
-const normalizeFqdn = (value) => {
-    if (typeof value !== 'string') {
-        return '';
-    }
-
-    const trimmed = value.trim();
-    if (!trimmed) {
-        return '';
-    }
-
-    const withoutScheme = trimmed.replace(/^(?:https?:\/\/)/i, '');
-    const withoutCredentials = withoutScheme.replace(/^[^@]+@/, '');
-    const withoutPrefix = withoutCredentials.replace(/^www\./i, '');
-    const withoutPath = withoutPrefix.split(/[/?#]/)[0];
-    const withoutTrailingDot = withoutPath.replace(/\.+$/, '');
-    const withoutRegexChars = withoutTrailingDot.replace(/[\\^$]/g, '');
-
-    return withoutRegexChars.toLowerCase();
-};
-
-const buildFqdnQuery = (fqdn) => ({ fqdn: new RegExp(`^${escapeRegExp(fqdn)}$`, 'i') });
 
 module.exports.ping = (req, res) => {
     res.json({ message: "pong" });
