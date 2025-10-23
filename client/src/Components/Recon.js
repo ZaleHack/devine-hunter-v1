@@ -15,7 +15,7 @@ import GoSpider from './SubComponents/GoSpider';
 import Hakrawler from './SubComponents/Hakrawler';
 import SubDomainizer from './SubComponents/SubDomainizer';
 import CloudRanges from './SubComponents/CloudRanges';
-import Dnmasscan from './SubComponents/Dnmasscan';
+import DnMasscan from './SubComponents/DnMasscan';
 import ShuffleDnsMassive from './SubComponents/ShuffleDnsMassive';
 import ShuffleDnsCustom from './SubComponents/ShuffleDnsCustom';
 import CustomWordlist from './SubComponents/CustomWordlist';
@@ -32,47 +32,47 @@ const Recon = props => {
             <div className="row">
         <div className="bg-secondary checklistStyle pt-4 ml-4 col-3">
             <ul>
-                <li>Subdomain Enumeration</li>
+                <li>Énumération des sous-domaines</li>
                 <ul>
-                    <li>Subdomain Scraping</li>
+                    <li>Collecte de sous-domaines</li>
                     <ul>
-                        <li onClick={(e)=>setCurrentStep(0)}>Tool - Sublist3r</li>
-                        <li onClick={(e)=>setCurrentStep(1)}>Tool - Amass</li>
-                        <li onClick={(e)=>setCurrentStep(2)}>Tool - Assetfinder</li>
-                        <li onClick={(e)=>setCurrentStep(3)}>Tool - GetAllUrls (gau)</li>
-                        <li onClick={(e)=>setCurrentStep(4)}>Certificate Transparency Logs</li>
-                        <li onClick={(e)=>setCurrentStep(5)}>Tools - Shosubgo</li>
-                        <li onClick={(e)=>setCurrentStep(6)}>Tools - Subfinder</li>
-                        <li onClick={(e)=>setCurrentStep(7)}>Tools - Github-Subdomains</li>
+                        <li onClick={(e)=>setCurrentStep(0)}>Outil - Sublist3r</li>
+                        <li onClick={(e)=>setCurrentStep(1)}>Outil - Amass</li>
+                        <li onClick={(e)=>setCurrentStep(2)}>Outil - Assetfinder</li>
+                        <li onClick={(e)=>setCurrentStep(3)}>Outil - GetAllUrls (gau)</li>
+                        <li onClick={(e)=>setCurrentStep(4)}>Journaux de transparence des certificats</li>
+                        <li onClick={(e)=>setCurrentStep(5)}>Outil - Shosubgo</li>
+                        <li onClick={(e)=>setCurrentStep(6)}>Outil - Subfinder</li>
+                        <li onClick={(e)=>setCurrentStep(7)}>Outil - Github-Subdomains</li>
                     </ul>
-                    <li>Link / JS Discovery</li>
+                    <li>Découverte de liens / JS</li>
                     <ul>
-                        <li onClick={(e)=>setCurrentStep(9)}>Tool - GoSpider</li>
-                        <li onClick={(e)=>setCurrentStep(10)}>Tool - Hakrawler</li>
-                        <li onClick={(e)=>setCurrentStep(11)}>Tool - SubDomainizer</li>
+                        <li onClick={(e)=>setCurrentStep(9)}>Outil - GoSpider</li>
+                        <li onClick={(e)=>setCurrentStep(10)}>Outil - Hakrawler</li>
+                        <li onClick={(e)=>setCurrentStep(11)}>Outil - SubDomainizer</li>
                     </ul>
-                    <li>Subdomain Bruteforcing</li>
+                    <li>Brute force de sous-domaines</li>
                     <ul>
-                        <li onClick={(e)=>setCurrentStep(12)}>ShuffleDNS - Massive Wordlist</li>
-                        <li onClick={(e)=>setCurrentStep(13)}>Build Custom Wordlist</li>
-                        <li onClick={(e)=>setCurrentStep(14)}>ShuffleDNS - Custom Wordlist</li>
+                        <li onClick={(e)=>setCurrentStep(12)}>ShuffleDNS - Liste de mots massive</li>
+                        <li onClick={(e)=>setCurrentStep(13)}>Créer une liste personnalisée</li>
+                        <li onClick={(e)=>setCurrentStep(14)}>ShuffleDNS - Liste personnalisée</li>
                     </ul>
-                    <li>Server/Port Enumeration</li>
+                    <li>Énumération des serveurs/ports</li>
                     <ul>
-                        <li onClick={(e)=>setCurrentStep(15)}>Cloud Ranges</li>
-                        <li onClick={(e)=>setCurrentStep(16)}>Dnmasscan</li>
-                        <li onClick={(e)=>setCurrentStep(17)}>Identify Web Servers</li>
+                        <li onClick={(e)=>setCurrentStep(15)}>Plages cloud</li>
+                        <li onClick={(e)=>setCurrentStep(16)}>DnMasscan</li>
+                        <li onClick={(e)=>setCurrentStep(17)}>Identifier les serveurs web</li>
                     </ul>
                 </ul>
-                <li>Final Analysis</li>
+                <li>Analyse finale</li>
                 <ul>
-                    <li onClick={(e)=>setCurrentStep(18)}>Build List of Unique Subdomains</li>
-                    <li onClick={(e)=>setCurrentStep(19)}>Check SubDomain Status - Httpprobe</li>
-                    <li onClick={(e)=>setCurrentStep(20)}>Final Analysis - EyeWitness</li>
+                    <li onClick={(e)=>setCurrentStep(18)}>Construire la liste des sous-domaines uniques</li>
+                    <li onClick={(e)=>setCurrentStep(19)}>Vérifier l’état des sous-domaines - Httprobe</li>
+                    <li onClick={(e)=>setCurrentStep(20)}>Analyse finale - EyeWitness</li>
                 </ul>
-                <li onClick={(e)=>setCurrentStep(21)}>Add Target URL</li>
-                <li onClick={(e)=>setCurrentStep(22)}>Github Brute Dork</li>
-                <li>Summary</li>
+                <li onClick={(e)=>setCurrentStep(21)}>Ajouter une URL cible</li>
+                <li onClick={(e)=>setCurrentStep(22)}>Recherche Github avancée</li>
+                <li>Résumé</li>
             </ul>
         </div>
         <div className="bg-secondary workTableStyle col-8">
@@ -154,7 +154,7 @@ const Recon = props => {
             }
             {
                 currentStep === 16 ?
-                <Dnmasscan thisFqdn={props.thisFqdn} /> :
+                <DnMasscan thisFqdn={props.thisFqdn} /> :
                 ''
             }
             {

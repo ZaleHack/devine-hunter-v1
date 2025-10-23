@@ -1,5 +1,5 @@
-import axios from 'axios';import React, {useState, useEffect} from 'react';
-
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import SubDomainForm from '../HelperComponents/SubDomainForm';
 import SubDomainResults from '../HelperComponents/SubDomainResults';
@@ -14,7 +14,7 @@ const ShuffleDnsMassive = props => {
 
     const notify = e => {
         navigator.clipboard.writeText(e.target.innerText)
-        toast(`Copied "${e.target.innerText}" to Clipboard`)
+        toast(`"${e.target.innerText}" copié dans le presse-papiers`)
     }
 
     useEffect(()=>{
@@ -60,10 +60,10 @@ const ShuffleDnsMassive = props => {
             <div className="row">
                 <div className="col-12">
                     <Toaster />
-                    <p><b>DETAILS: </b>ShuffleDNS is a wrapper around massdns written in go that allows you to enumerate valid subdomains using active bruteforce as well as resolve subdomains with wildcard handling and easy input-output support.</p>
-                    <p><b>GOAL: </b>Bruteforce subdomains based on given wordlist.</p>
-                    <p><b>DOWNLOAD / INSTALL: </b><span onClick={notify}>GO111MODULE=on go get -v github.com/projectdiscovery/shuffledns/cmd/shuffledns</span></p>
-                    <p><b>Run: </b><span onClick={notify}>~/go/bin/shuffledns -d {props.thisFqdn.fqdn} -w ~/Wordlists/all.txt -r ~/Wordlists/resolvers.txt | xclip -i -selection clipboard</span></p>
+                    <p><b>Détails&nbsp;:</b> ShuffleDNS est une surcouche de massdns écrite en Go qui combine résolution rapide et bruteforce actif des sous-domaines, tout en gérant les wildcards et un format d’entrée/sortie souple.</p>
+                    <p><b>Objectif&nbsp;:</b> Explorer massivement les sous-domaines en s’appuyant sur une wordlist exhaustive et une liste de résolveurs validés.</p>
+                    <p><b>Téléchargement / installation&nbsp;:</b><span onClick={notify}>GO111MODULE=on go get -v github.com/projectdiscovery/shuffledns/cmd/shuffledns</span></p>
+                    <p><b>Exécution&nbsp;:</b><span onClick={notify}>~/go/bin/shuffledns -d {props.thisFqdn.fqdn} -w ~/Wordlists/all.txt -r ~/Wordlists/resolvers.txt | xclip -i -selection clipboard</span></p>
                 </div>
             </div>
             <div className="row">

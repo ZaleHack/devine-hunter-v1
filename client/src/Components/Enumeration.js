@@ -75,13 +75,13 @@ const Enumeration = props => {
 
     return (
         <div>
-        <nav style={{borderBottom: '2px groove #284B63'}} className="pl-2 pt-0 navbar navbar-expand-lg bg-primary">
+        <nav className="pl-2 pt-0 navbar navbar-expand-lg modern-toolbar">
             <div className="container-fluid">
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <button onClick={populateBurp} style={{width: '135px'}} className="border border-info nav-link btn btn-primary text-secondary">Populate Burp</button>
-                    <h5 className="text-secondary ml-4 pt-0 mb-0">Target URL : &nbsp;&nbsp;<a className="text-secondary" target="_blank" rel="noreferrer" href="">{targetUrl}</a></h5>
-                    <button onClick={runDefaultScan} style={{width: '135px'}} className="border border-info nav-link btn btn-primary text-secondary ml-5">Default Scan</button>
-                    <button onClick={runDeepScan} style={{width: '135px'}} className="border border-info nav-link btn btn-primary text-secondary ml-2">Deep Scan</button>
+                    <button onClick={populateBurp} style={{width: '135px'}} className="nav-link btn btn-elevated text-light">Remplir Burp</button>
+                    <h5 className="toolbar-text ml-4 pt-0 mb-0">URL cible : &nbsp;&nbsp;<a className="toolbar-link" target="_blank" rel="noreferrer" href="">{targetUrl}</a></h5>
+                    <button onClick={runDefaultScan} style={{width: '135px'}} className="nav-link btn btn-elevated text-light ml-5">Analyse par défaut</button>
+                    <button onClick={runDeepScan} style={{width: '135px'}} className="nav-link btn btn-outline-light ml-2">Analyse approfondie</button>
                 </div>
             </div>
         </nav>
@@ -110,7 +110,7 @@ const Enumeration = props => {
             </ul>
         </div>
         <div style={{overflowY:"scroll"}} className="bg-secondary workTableStyle col-8">
-            <button onClick={handleTargetUrl} className="border border-info nav-link btn btn-primary text-secondary mt-3 mb-3">Set as Target URL</button>
+            <button onClick={handleTargetUrl} className="nav-link btn btn-elevated text-light mt-3 mb-3">Définir comme URL cible</button>
             <h2><a href={selectedUrl}>{selectedUrl}</a></h2>
             <ul style={{listStyleType:"none", padding:"0", margin:"0"}}>
             {

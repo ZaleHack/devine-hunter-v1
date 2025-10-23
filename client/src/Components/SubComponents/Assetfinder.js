@@ -13,7 +13,7 @@ const Assetfinder = props => {
 
     const notify = e => {
         navigator.clipboard.writeText(e.target.innerText)
-        toast(`Copied "${e.target.innerText}" to Clipboard`)
+        toast(`"${e.target.innerText}" copié dans le presse-papiers`)
     }
 
     useEffect(()=>{
@@ -58,10 +58,10 @@ const Assetfinder = props => {
             <div className="row">
                 <div className="col-12">
                     <Toaster />
-                    <p><b>DETAILS: </b>Find domains and subdomains potentially related to a given domain. (straight to the point as usual, Tomnomnom!)</p>
-                    <p><b>GOAL: </b>Identify valid sub-domains of the current FQDN to help build a complete picture of the application.</p>
-                    <p><b>DOWNLOAD / INSTALL: </b><span onClick={notify}>go get -u github.com/tomnomnom/assetfinder</span></p>
-                    <p><b>RUN: </b><span onClick={notify}>sudo assetfinder --subs-only {props.thisFqdn.fqdn} &gt; assetfinder.{props.thisFqdn.fqdn}.txt; cat assetfinder.{props.thisFqdn.fqdn}.txt | xclip -i -selection clipboard</span></p>
+                    <p><b>Détails&nbsp;:</b>Assetfinder inventorie rapidement les domaines et sous-domaines potentiellement liés à un domaine donné (selon la fameuse concision de Tomnomnom&nbsp;!).</p>
+                    <p><b>Objectif&nbsp;:</b> Recenser les sous-domaines du FQDN étudié pour compléter la vue d’ensemble de l’application.</p>
+                    <p><b>Téléchargement / installation&nbsp;:</b><span onClick={notify}>go get -u github.com/tomnomnom/assetfinder</span></p>
+                    <p><b>Exécution&nbsp;:</b><span onClick={notify}>sudo assetfinder --subs-only {props.thisFqdn.fqdn} &gt; assetfinder.{props.thisFqdn.fqdn}.txt; cat assetfinder.{props.thisFqdn.fqdn}.txt | xclip -i -selection clipboard</span></p>
                 </div>
             </div>
             <div className="row">

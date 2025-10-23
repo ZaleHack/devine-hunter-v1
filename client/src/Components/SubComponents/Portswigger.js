@@ -7,10 +7,10 @@ const Portswigger = props => {
         <div className="container mt-2">
             <div className="row">
                 <div className="col-12">
-                    <h4>Portswigger</h4>
-                    <p>PortSwigger is a UK-based cybersecurity company that is well known for its flagship product, Burp Suite. Burp Suite is an integrated platform for performing security testing of web applications. It is widely used by cybersecurity professionals, including web developers, security researchers, and penetration testers, to identify security vulnerabilities in web applications.</p>
-                    <p>The company was founded by Dafydd Stuttard, who is also the creator of Burp Suite. Burp Suite provides various tools for testing web application security, such as intercepting proxies, scanner tools, and numerous options for manual testing. It helps identify various types of security issues, including but not limited to cross-site scripting (XSS), SQL injection, and other vulnerabilities that can be exploited by malicious attackers.</p>
-                    <p>PortSwigger's Burp Suite has become a standard tool in the arsenal of security professionals and is widely recognized in the cybersecurity community for its effectiveness and comprehensive features for identifying and addressing web application security issues.</p>
+                    <h4>PortSwigger</h4>
+                    <p>PortSwigger est une entreprise britannique de cybersécurité connue pour sa suite Burp. Burp Suite est une plateforme intégrée dédiée aux tests de sécurité d’applications web. Elle est utilisée par les développeurs, chercheurs et pentesters pour identifier les vulnérabilités applicatives.</p>
+                    <p>Fondée par Dafydd Stuttard, créateur de Burp Suite, la solution regroupe un proxy d’interception, des scanners automatisés et de nombreux outils d’analyse manuelle. Elle permet de détecter des failles comme le XSS, l’injection SQL et bien d’autres vulnérabilités exploitées par les attaquants.</p>
+                    <p>Burp Suite est devenue une référence incontournable pour la communauté sécurité grâce à la richesse de ses fonctionnalités et à son efficacité pour cartographier et corriger les faiblesses des applications web.</p>
                     
                 </div>
             </div>

@@ -230,86 +230,86 @@ const CveTesting = props => {
         <div className="row">
         <div className="bg-secondary checklistStyle pt-4 ml-4 col-3">
             <ul>
-                <li>Third-Party Scanning</li>
+                <li>Analyses automatisées</li>
                 <ul>
-                    <li onClick={(e)=>setCurrentStep(0)}>Nuclei Scan Results -- Full (Vuln Count: {impactfulVulnCount})</li>
+                    <li onClick={(e)=>setCurrentStep(0)}>Résultats Nuclei -- Complet (Vuln Count: {impactfulVulnCount})</li>
                     {
                         impactfulVulnFoundSSL ?
-                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(1)}>Nuclei Scan Results -- SSL (Vuln Count: {impactfulVulnCountSSL})</li> :
-                        <li onClick={(e)=>setCurrentStep(1)}>Nuclei Scan Results -- SSL (Vuln Count: {impactfulVulnCountSSL})</li> 
+                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(1)}>Résultats Nuclei -- SSL (Vuln Count: {impactfulVulnCountSSL})</li> :
+                        <li onClick={(e)=>setCurrentStep(1)}>Résultats Nuclei -- SSL (Vuln Count: {impactfulVulnCountSSL})</li> 
                     }
                     {
                         impactfulVulnFoundFile ?
-                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(2)}>Nuclei Scan Results -- File (Vuln Count: {impactfulVulnCountFile})</li> :
-                        <li onClick={(e)=>setCurrentStep(2)}>Nuclei Scan Results -- File (Vuln Count: {impactfulVulnCountFile})</li>
+                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(2)}>Résultats Nuclei -- Fichiers (Vuln Count: {impactfulVulnCountFile})</li> :
+                        <li onClick={(e)=>setCurrentStep(2)}>Résultats Nuclei -- Fichiers (Vuln Count: {impactfulVulnCountFile})</li>
                     }
                     {
                         impactfulVulnFoundDNS ?
-                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(3)}>Nuclei Scan Results -- DNS (Vuln Count: {impactfulVulnCountDNS})</li> :
-                        <li onClick={(e)=>setCurrentStep(3)}>Nuclei Scan Results -- DNS (Vuln Count: {impactfulVulnCountDNS})</li>
+                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(3)}>Résultats Nuclei -- DNS (Vuln Count: {impactfulVulnCountDNS})</li> :
+                        <li onClick={(e)=>setCurrentStep(3)}>Résultats Nuclei -- DNS (Vuln Count: {impactfulVulnCountDNS})</li>
                     }
                     {
                         impactfulVulnFoundVulns ?
-                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(4)}>Nuclei Scan Results -- Vulns (Vuln Count: {impactfulVulnCountVulns})</li> :
-                        <li onClick={(e)=>setCurrentStep(4)}>Nuclei Scan Results -- Vulns (Vuln Count: {impactfulVulnCountVulns})</li>
+                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(4)}>Résultats Nuclei -- Vulnérabilités (Vuln Count: {impactfulVulnCountVulns})</li> :
+                        <li onClick={(e)=>setCurrentStep(4)}>Résultats Nuclei -- Vulnérabilités (Vuln Count: {impactfulVulnCountVulns})</li>
                     }
                     {
                         impactfulVulnFoundTech ?
-                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(5)}>Nuclei Scan Results -- Tech (Vuln Count: {impactfulVulnCountTech})</li> :
-                        <li onClick={(e)=>setCurrentStep(5)}>Nuclei Scan Results -- Tech (Vuln Count: {impactfulVulnCountTech})</li>
+                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(5)}>Résultats Nuclei -- Technologies (Vuln Count: {impactfulVulnCountTech})</li> :
+                        <li onClick={(e)=>setCurrentStep(5)}>Résultats Nuclei -- Technologies (Vuln Count: {impactfulVulnCountTech})</li>
                     }
                     {
                         impactfulVulnFoundMisconfig ?
-                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(6)}>Nuclei Scan Results -- Misconfigs (Vuln Count: {impactfulVulnCountMisconfig})</li> :
-                        <li onClick={(e)=>setCurrentStep(6)}>Nuclei Scan Results -- Misconfigs (Vuln Count: {impactfulVulnCountMisconfig})</li>
+                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(6)}>Résultats Nuclei -- Mauvaises configurations (Vuln Count: {impactfulVulnCountMisconfig})</li> :
+                        <li onClick={(e)=>setCurrentStep(6)}>Résultats Nuclei -- Mauvaises configurations (Vuln Count: {impactfulVulnCountMisconfig})</li>
                     }
                     {
                         impactfulVulnFoundCVEs ?
-                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(7)}>Nuclei Scan Results -- CVEs (Vuln Count: {impactfulVulnCountCVEs})</li> :
-                        <li onClick={(e)=>setCurrentStep(7)}>Nuclei Scan Results -- CVEs (Vuln Count: {impactfulVulnCountCVEs})</li>
+                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(7)}>Résultats Nuclei -- CVE (Vuln Count: {impactfulVulnCountCVEs})</li> :
+                        <li onClick={(e)=>setCurrentStep(7)}>Résultats Nuclei -- CVE (Vuln Count: {impactfulVulnCountCVEs})</li>
                     }
                     {
                         impactfulVulnFoundCNVD ?
-                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(8)}>Nuclei Scan Results -- CNVD (Vuln Count: {impactfulVulnCountCNVD})</li> :
-                        <li onClick={(e)=>setCurrentStep(8)}>Nuclei Scan Results -- CNVD (Vuln Count: {impactfulVulnCountCNVD})</li>
+                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(8)}>Résultats Nuclei -- CNVD (Vuln Count: {impactfulVulnCountCNVD})</li> :
+                        <li onClick={(e)=>setCurrentStep(8)}>Résultats Nuclei -- CNVD (Vuln Count: {impactfulVulnCountCNVD})</li>
                     }
                     {
                         impactfulVulnFoundExposed ?
-                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(9)}>Nuclei Scan Results -- Exposed (Vuln Count: {impactfulVulnCountExposed})</li> :
-                        <li onClick={(e)=>setCurrentStep(9)}>Nuclei Scan Results -- Exposed (Vuln Count: {impactfulVulnCountExposed})</li>
+                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(9)}>Résultats Nuclei -- Services exposés (Vuln Count: {impactfulVulnCountExposed})</li> :
+                        <li onClick={(e)=>setCurrentStep(9)}>Résultats Nuclei -- Services exposés (Vuln Count: {impactfulVulnCountExposed})</li>
                     }
                     {
                         impactfulVulnFoundExposure ?
-                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(10)}>Nuclei Scan Results -- Exposure (Vuln Count: {impactfulVulnCountExposure})</li> :
-                        <li onClick={(e)=>setCurrentStep(10)}>Nuclei Scan Results -- Exposure (Vuln Count: {impactfulVulnCountExposure})</li>
+                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(10)}>Résultats Nuclei -- Surface exposée (Vuln Count: {impactfulVulnCountExposure})</li> :
+                        <li onClick={(e)=>setCurrentStep(10)}>Résultats Nuclei -- Surface exposée (Vuln Count: {impactfulVulnCountExposure})</li>
                     }
                     {
                         impactfulVulnFoundMisc ?
-                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(11)}>Nuclei Scan Results -- Misc (Vuln Count: {impactfulVulnCountMisc})</li> :
-                        <li onClick={(e)=>setCurrentStep(11)}>Nuclei Scan Results -- Misc (Vuln Count: {impactfulVulnCountMisc})</li>
+                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(11)}>Résultats Nuclei -- Divers (Vuln Count: {impactfulVulnCountMisc})</li> :
+                        <li onClick={(e)=>setCurrentStep(11)}>Résultats Nuclei -- Divers (Vuln Count: {impactfulVulnCountMisc})</li>
                     }
                     {
                         impactfulVulnFoundNetwork ?
-                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(12)}>Nuclei Scan Results -- Network (Vuln Count: {impactfulVulnCountNetwork})</li> :
-                        <li onClick={(e)=>setCurrentStep(12)}>Nuclei Scan Results -- Network (Vuln Count: {impactfulVulnCountNetwork})</li>
+                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(12)}>Résultats Nuclei -- Réseau (Vuln Count: {impactfulVulnCountNetwork})</li> :
+                        <li onClick={(e)=>setCurrentStep(12)}>Résultats Nuclei -- Réseau (Vuln Count: {impactfulVulnCountNetwork})</li>
                     }
                     {
                         impactfulVulnFoundRs0n ?
-                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(13)}>Nuclei Scan Results -- Rs0n (Vuln Count: {impactfulVulnCountRs0n})</li> :
-                        <li onClick={(e)=>setCurrentStep(13)}>Nuclei Scan Results -- Rs0n (Vuln Count: {impactfulVulnCountRs0n})</li>
+                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(13)}>Résultats Nuclei -- Rs0n (Vuln Count: {impactfulVulnCountRs0n})</li> :
+                        <li onClick={(e)=>setCurrentStep(13)}>Résultats Nuclei -- Rs0n (Vuln Count: {impactfulVulnCountRs0n})</li>
                     }
                     {
                         impactfulVulnFoundHeadless ?
-                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(14)}>Nuclei Scan Results -- Headless (Vuln Count: {impactfulVulnCountHeadless})</li> :
-                        <li onClick={(e)=>setCurrentStep(14)}>Nuclei Scan Results -- Headless (Vuln Count: {impactfulVulnCountHeadless})</li>
+                        <li style={{color:"red"}} onClick={(e)=>setCurrentStep(14)}>Résultats Nuclei -- Sans interface (Vuln Count: {impactfulVulnCountHeadless})</li> :
+                        <li onClick={(e)=>setCurrentStep(14)}>Résultats Nuclei -- Sans interface (Vuln Count: {impactfulVulnCountHeadless})</li>
                     }
                 </ul>
-                <li>Custom Scanning</li>
+                <li>Analyses personnalisées</li>
                 <ul>
-                    <li>CVE Scanning</li>
+                    <li>Analyse des CVE</li>
                     <ul>
-                        <li onClick={(e)=>setCurrentStep(20)}>Add CVE</li>
-                        <li onClick={(e)=>setCurrentStep(21)}>CVE Scan Results</li>
+                        <li onClick={(e)=>setCurrentStep(20)}>Ajouter une CVE</li>
+                        <li onClick={(e)=>setCurrentStep(21)}>Résultats d’analyse CVE</li>
                     </ul>
                 </ul>
             </ul>

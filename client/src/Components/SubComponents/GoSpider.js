@@ -14,7 +14,7 @@ const GoSpider = props => {
 
     const notify = e => {
         navigator.clipboard.writeText(e.target.innerText)
-        toast(`Copied "${e.target.innerText}" to Clipboard`)
+        toast(`"${e.target.innerText}" copié dans le presse-papiers`)
     }
 
     useEffect(()=>{
@@ -60,11 +60,11 @@ const GoSpider = props => {
             <div className="row">
                 <div className="col-12">
                     <Toaster />
-                    <p><b>DETAILS: </b>GoSpider - Fast web spider written in Go</p>
-                    <p><b>GOAL: </b>Identify valid sub-domains of the current FQDN to help build a complete picture of the application.</p>
-                    <p><b>DOWNLOAD: </b><span onClick={notify}>go get -u github.com/jaeles-project/gospider</span></p>
-                    <p><b>INSTALL: </b><span onClick={notify}>apt-get install golang</span></p>
-                    <p><b>RUN: </b><span onClick={notify}>gospider -s "https://{props.thisFqdn.fqdn}/" -o gospider.{props.thisFqdn.fqdn}.txt -c 10 -d 1; cat gospider.{props.thisFqdn.fqdn}.txt | xclip -i -selection clipboard</span></p>
+                    <p><b>Détails&nbsp;:</b>GoSpider est un crawler web très rapide écrit en Go, idéal pour explorer une application et recenser ses chemins publics.</p>
+                    <p><b>Objectif&nbsp;:</b> Recenser les sous-domaines du FQDN étudié pour compléter la vue d’ensemble de l’application.</p>
+                    <p><b>Téléchargement&nbsp;:</b><span onClick={notify}>go get -u github.com/jaeles-project/gospider</span></p>
+                    <p><b>Installation&nbsp;:</b><span onClick={notify}>apt-get install golang</span></p>
+                    <p><b>Exécution&nbsp;:</b><span onClick={notify}>gospider -s "https://{props.thisFqdn.fqdn}/" -o gospider.{props.thisFqdn.fqdn}.txt -c 10 -d 1; cat gospider.{props.thisFqdn.fqdn}.txt | xclip -i -selection clipboard</span></p>
                 </div>
             </div>
             <div className="row">

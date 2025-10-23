@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import '../Component.css';
 import ResourceEntry from './SubComponents/ResourceEntry';
-import Portswigger from './SubComponents/Portswigger';
+import PortSwigger from './SubComponents/PortSwigger';
 
 
 
@@ -14,18 +14,18 @@ const Feature = props => {
             <div className="row">
         <div className="bg-secondary checklistStyle pt-2 ml-4 col-3">
             <ul  style={{"listStyleType":"none"}}>
-                <li style={{"fontWeight":"bold"}}>Red Team AppSec Resources</li>
+                <li style={{"fontWeight":"bold"}}>Ressources AppSec offensives</li>
                 <ul  style={{"listStyleType":"none"}}>
-                    <li onClick={(e)=>setCurrentStep(0)}>Portswigger</li>
+                    <li onClick={(e)=>setCurrentStep(0)}>PortSwigger</li>
                     <li onClick={(e)=>setCurrentStep(1)}>HackTricks</li>
                     <li onClick={(e)=>setCurrentStep(1)}>PenTesterLab</li>
                     <li onClick={(e)=>setCurrentStep(1)}>HackTheBox</li>
                     <li onClick={(e)=>setCurrentStep(1)}>PayloadsAllTheThings</li>
-                    <li onClick={(e)=>setCurrentStep(1)}>Bug Bounty Programs</li>
+                    <li onClick={(e)=>setCurrentStep(1)}>Programmes de bug bounty</li>
                 </ul>
-                <li style={{"fontWeight":"bold"}}>Blue Team AppSec Resources</li>
+                <li style={{"fontWeight":"bold"}}>Ressources AppSec défensives</li>
                 <ul  style={{"listStyleType":"none"}}>
-                    <li onClick={(e)=>setCurrentStep(1)}>OWASP Cheat Sheet</li>
+                    <li onClick={(e)=>setCurrentStep(1)}>Fiches OWASP</li>
                     <li onClick={(e)=>setCurrentStep(1)}>Codecademy</li>
                 </ul>
             </ul>
@@ -33,7 +33,7 @@ const Feature = props => {
         <div className="bg-secondary workTableStyle col-8">
         {
                 currentStep === 0 ?
-                <Portswigger thisFqdn={props.thisFqdn} /> :
+                <PortSwigger thisFqdn={props.thisFqdn} /> :
                 ''
             }
             {

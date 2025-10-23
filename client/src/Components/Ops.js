@@ -30,52 +30,52 @@ const Ops = props => {
         <div className="container-fluid">
             <div className="row">
         <div className="bg-secondary checklistStyle pt-2 ml-4 col-3">
-        <h4 className="ml-3 pt-2">Infrastructure & DevOps Testing</h4>
+        <h4 className="ml-3 pt-2">Tests infrastructure et DevOps</h4>
             <ul style={{listStyleType: "none"}}>
-                <li style={{fontWeight: "bold"}}>Reverse Proxy Testing</li>
+                <li style={{fontWeight: "bold"}}>Tests de proxy inverse</li>
                 <ul style={{listStyleType: "none"}}>
-                    <li onClick={(e)=>setCurrentStep(0)}>Abusing Hop-by-Hop Headers</li>
-                    <li onClick={(e)=>setCurrentStep(1)}>Web Cache Poisoning</li>
-                    <li onClick={(e)=>setCurrentStep(2)}>Web Cache Deception</li>
-                    <li onClick={(e)=>setCurrentStep(3)}>HTTP Request Smuggling</li>
-                    <li onClick={(e)=>setCurrentStep(4)}>H2C Smuggling</li>
-                    <li onClick={(e)=>setCurrentStep(5)}>XSLT Server-Side Injection</li>
-                    <li onClick={(e)=>setCurrentStep(6)}>Edge Side Inclusion (ESI) Injection</li>
-                    <li onClick={(e)=>setCurrentStep(7)}>Host Header Poisoning</li>
-                    <li onClick={(e)=>setCurrentStep(8)}>IP Address Spoofing</li>
+                    <li onClick={(e)=>setCurrentStep(0)}>Abus des en-têtes hop-by-hop</li>
+                    <li onClick={(e)=>setCurrentStep(1)}>Empoisonnement du cache web</li>
+                    <li onClick={(e)=>setCurrentStep(2)}>Détournement de cache web</li>
+                    <li onClick={(e)=>setCurrentStep(3)}>Contournement des requêtes HTTP (smuggling)</li>
+                    <li onClick={(e)=>setCurrentStep(4)}>Smuggling H2C</li>
+                    <li onClick={(e)=>setCurrentStep(5)}>Injection XSLT côté serveur</li>
+                    <li onClick={(e)=>setCurrentStep(6)}>Injection Edge Side Includes (ESI)</li>
+                    <li onClick={(e)=>setCurrentStep(7)}>Empoisonnement de l'en-tête Host</li>
+                    <li onClick={(e)=>setCurrentStep(8)}>Usurpation d'adresse IP</li>
                 </ul>
-                <li style={{fontWeight: "bold"}}>Cloud-Specific Testing</li>
+                <li style={{fontWeight: "bold"}}>Tests spécifiques au cloud</li>
                 <ul style={{listStyleType: "none"}}>
-                    <li onClick={(e)=>setCurrentStep(9)}>AWS S3 Bucket Misconfiguration</li>
-                    <li onClick={(e)=>setCurrentStep(10)}>AWS Cloudfront Misconfiguration</li>
-                    <li onClick={(e)=>setCurrentStep(11)}>AWS IAM/STS Misconfiguration</li>
-                    <li onClick={(e)=>setCurrentStep(12)}>AWS Elastic Beanstalk Misconfiguration</li>
-                    <li onClick={(e)=>setCurrentStep(13)}>AWS API Gateway Misconfiguration</li>
-                    <li onClick={(e)=>setCurrentStep(14)}>AWS Cognito Misconfiguration</li>
-                    <li onClick={(e)=>setCurrentStep(15)}>AWS Exposed Sensitive DocumentDB</li>
-                    <li onClick={(e)=>setCurrentStep(16)}>AWS EC2 Misconfiguration</li>
-                    <li onClick={(e)=>setCurrentStep(17)}>AWS SNS Misconfiguration</li>
-                    <li onClick={(e)=>setCurrentStep(18)}>AWS RDS Misconfiguration</li>
-                    <li onClick={(e)=>setCurrentStep(19)}>Azure Tenate Enumeration</li>
-                    <li onClick={(e)=>setCurrentStep(20)}>Azure User Enumeration</li>
-                    <li onClick={(e)=>setCurrentStep(21)}>Azure Open Storage</li>
-                    <li onClick={(e)=>setCurrentStep(22)}>Azure Brute-force Credentials</li>
-                    <li onClick={(e)=>setCurrentStep(23)}>Azure ACR Misconfiguration</li>
-                    <li onClick={(e)=>setCurrentStep(24)}>Azure App Service Misconfiguration</li>
-                    <li onClick={(e)=>setCurrentStep(25)}>GCP Public Bucket Misconfiguration</li>
-                    <li onClick={(e)=>setCurrentStep(26)}>GCP GitHub Actions</li>
+                    <li onClick={(e)=>setCurrentStep(9)}>Mauvaise configuration de bucket AWS S3</li>
+                    <li onClick={(e)=>setCurrentStep(10)}>Mauvaise configuration AWS CloudFront</li>
+                    <li onClick={(e)=>setCurrentStep(11)}>Mauvaise configuration AWS IAM/STS</li>
+                    <li onClick={(e)=>setCurrentStep(12)}>Mauvaise configuration AWS Elastic Beanstalk</li>
+                    <li onClick={(e)=>setCurrentStep(13)}>Mauvaise configuration AWS API Gateway</li>
+                    <li onClick={(e)=>setCurrentStep(14)}>Mauvaise configuration AWS Cognito</li>
+                    <li onClick={(e)=>setCurrentStep(15)}>AWS DocumentDB sensible exposé</li>
+                    <li onClick={(e)=>setCurrentStep(16)}>Mauvaise configuration AWS EC2</li>
+                    <li onClick={(e)=>setCurrentStep(17)}>Mauvaise configuration AWS SNS</li>
+                    <li onClick={(e)=>setCurrentStep(18)}>Mauvaise configuration AWS RDS</li>
+                    <li onClick={(e)=>setCurrentStep(19)}>Énumération du locataire Azure</li>
+                    <li onClick={(e)=>setCurrentStep(20)}>Énumération des utilisateurs Azure</li>
+                    <li onClick={(e)=>setCurrentStep(21)}>Stockage Azure ouvert</li>
+                    <li onClick={(e)=>setCurrentStep(22)}>Forcer les identifiants Azure</li>
+                    <li onClick={(e)=>setCurrentStep(23)}>Mauvaise configuration Azure ACR</li>
+                    <li onClick={(e)=>setCurrentStep(24)}>Mauvaise configuration Azure App Service</li>
+                    <li onClick={(e)=>setCurrentStep(25)}>Mauvaise configuration de bucket public GCP</li>
+                    <li onClick={(e)=>setCurrentStep(26)}>Workflows GitHub Actions sur GCP</li>
                 </ul>
-                <li style={{fontWeight: "bold"}}>Web Server Testing</li>
+                <li style={{fontWeight: "bold"}}>Tests de serveurs web</li>
                 <ul style={{listStyleType: "none"}}>
-                    <li onClick={(e)=>setCurrentStep(27)}>Common Vulnerabilities and Enumerations (CVE's)</li>
-                    <li onClick={(e)=>setCurrentStep(28)}>Exposed Configuration Files</li>
-                    <li onClick={(e)=>setCurrentStep(29)}>Server Side Includes (SSI) Injection</li>
-                    <li onClick={(e)=>setCurrentStep(30)}>Information Disclosure</li>
+                    <li onClick={(e)=>setCurrentStep(27)}>Vulnérabilités et expositions courantes (CVE)</li>
+                    <li onClick={(e)=>setCurrentStep(28)}>Fichiers de configuration exposés</li>
+                    <li onClick={(e)=>setCurrentStep(29)}>Injection Server Side Includes (SSI)</li>
+                    <li onClick={(e)=>setCurrentStep(30)}>Divulgation d'informations</li>
                 </ul>
-                <li style={{fontWeight: "bold"}}>Domain Name System (DNS) Testing</li>
+                <li style={{fontWeight: "bold"}}>Tests DNS</li>
                 <ul style={{listStyleType: "none"}}>
-                    <li onClick={(e)=>setCurrentStep(31)}>DNS Rebinding</li>
-                    <li onClick={(e)=>setCurrentStep(32)}>Subdomain Takeover</li>
+                    <li onClick={(e)=>setCurrentStep(31)}>Rebinding DNS</li>
+                    <li onClick={(e)=>setCurrentStep(32)}>Prise de contrôle de sous-domaine</li>
                 </ul>
             </ul>
         </div>

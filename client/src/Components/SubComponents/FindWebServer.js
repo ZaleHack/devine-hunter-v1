@@ -14,7 +14,7 @@ const FindWebServer = props => {
 
     const notify = e => {
         navigator.clipboard.writeText(e.target.innerText)
-        toast(`Copied "${e.target.innerText}" to Clipboard`)
+        toast(`"${e.target.innerText}" copié dans le presse-papiers`)
     }
 
     useEffect(()=>{
@@ -60,10 +60,10 @@ const FindWebServer = props => {
             <div className="row">
                 <div className="col-12">
                     <Toaster />
-                    <p><b>DETAILS: </b>This tool pulls the dnmasscan results from the WAPT Framework and checks each server/port combination to find any that are actively running web servers.</p>
-                    <p><b>GOAL: </b>Identify hidden/obfuscated web servers that can potentially be exploited.</p>
-                    <p><b>DOWNLOAD/INSTALL: </b><span onClick={notify}>git clone https://github.com/R-s0n/Fire_Spreader.git</span></p>
-                    <p><b>RUN: </b><span onClick={notify}>python3 wind.py -d {props.thisFqdn.fqdn}</span></p>
+                    <p><b>Détails&nbsp;:</b> Cet outil récupère les résultats de dnmasscan au sein du WAPT Framework et vérifie chaque couple serveur/port pour déterminer ceux qui exposent réellement un service web.</p>
+                    <p><b>Objectif&nbsp;:</b> Mettre au jour les serveurs web dissimulés ou obscurcis susceptibles d’être exploités.</p>
+                    <p><b>Téléchargement&nbsp;:</b><span onClick={notify}>git clone https://github.com/R-s0n/Fire_Spreader.git</span></p>
+                    <p><b>Exécution&nbsp;:</b><span onClick={notify}>python3 wind.py -d {props.thisFqdn.fqdn}</span></p>
                 </div>
             </div>
             <div className="row mt-3">

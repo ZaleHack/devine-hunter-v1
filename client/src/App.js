@@ -290,7 +290,7 @@ return (
       <div className="brand">
         <div className="brand-logo">DH</div>
         <div className="brand-text">
-          <h1>Divine Hunter</h1>
+          <h1>Dvine Hunter</h1>
           <p>Plateforme française de gestion des surfaces d'attaque</p>
         </div>
       </div>
