@@ -293,7 +293,7 @@ return (
         <div className="brand-logo">DH</div>
         <div className="brand-text">
           <h1>Dvine Hunter</h1>
-          <p>Plateforme française de gestion des surfaces d'attaque</p>
+          <p>Gestion des surfaces d'attaque</p>
         </div>
       </div>
       <span className={`status-pill ${scanRunning ? 'active' : ''}`}>
