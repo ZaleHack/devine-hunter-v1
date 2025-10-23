@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const { Fqdn } = require("../models/fqdn.model");
 const { Url } = require("../models/url.model");
 const { Cve } = require("../models/cve.model");
@@ -11,6 +12,18 @@ const execSync = util.promisify(require('child_process').execSync);
 const axios = require('axios');
 const https = require('https');
 
+const ensureDatabaseConnection = (res) => {
+    if (mongoose.connection.readyState === 1) {
+        return true;
+    }
+
+    res.status(503).json({
+        message: "La base de données MongoDB est indisponible. Veuillez vérifier que le service est démarré.",
+    });
+
+    return false;
+};
+
 module.exports.ping = (req, res) => {
     res.json({ message: "pong" });
 }
@@ -18,21 +31,27 @@ module.exports.ping = (req, res) => {
 // CVE Controllers
 
 module.exports.addCve = (req, res) => {
-    
+    if (!ensureDatabaseConnection(res)) {
+        return;
+    }
     Cve.create(req.body)
         .then(newCve=>res.json(newCve))
         .catch(err=>res.status(400).json(err))
 }
 
 module.exports.getCves = (req, res) => {
-    
+    if (!ensureDatabaseConnection(res)) {
+        return;
+    }
     Cve.find()
         .then(Cves=>res.json(Cves))
         .catch(err=>res.status(400).json(err))
 }
 
 module.exports.deleteCve = (req, res) => {
-    
+    if (!ensureDatabaseConnection(res)) {
+        return;
+    }
     Cve.deleteOne({ cve: req.body.cve })
         .then(result=>res.json({success:true}))
         .catch(err=>res.status(400).json(err))
@@ -41,6 +60,9 @@ module.exports.deleteCve = (req, res) => {
 // Fqdn Controllers
 
 module.exports.addFqdn = async (req, res) => {
+    if (!ensureDatabaseConnection(res)) {
+        return;
+    }
     const incomingBody = req.body || {};
     const normalizedFqdn = normalizeFqdn(incomingBody.fqdn);
 
@@ -70,27 +92,36 @@ module.exports.addFqdn = async (req, res) => {
 }
 
 module.exports.getFqdns = (req, res) => {
-    
+    if (!ensureDatabaseConnection(res)) {
+        return;
+    }
     Fqdn.find()
         .then(fqdns=>res.json(fqdns))
         .catch(err=>res.status(400).json(err))
 }
 
 module.exports.getFqdn = (req, res) => {
-    
+    if (!ensureDatabaseConnection(res)) {
+        return;
+    }
     Fqdn.findOne({ _id: req.body._id })
         .then(oneFqdn=>res.json(oneFqdn))
         .catch(err=>res.status(400).json(err))
 }
 
 module.exports.deleteFqdn = (req, res) => {
-    
+    if (!ensureDatabaseConnection(res)) {
+        return;
+    }
     Fqdn.deleteOne({ _id: req.body._id })
         .then(result=>res.json({success:true}))
         .catch(err=>res.status(400).json(err))
 }
 
 module.exports.updateFqdn = (req, res) => {
+    if (!ensureDatabaseConnection(res)) {
+        return;
+    }
     console.log(req.body)
     Fqdn.findOneAndUpdate(
         { _id: req.body._id },
@@ -101,6 +132,9 @@ module.exports.updateFqdn = (req, res) => {
 }
 
 module.exports.autoGetFqdn = (req, res) => {
+    if (!ensureDatabaseConnection(res)) {
+        return;
+    }
     const normalizedFqdn = normalizeFqdn(req.body && req.body.fqdn);
 
     if (!normalizedFqdn) {
@@ -113,6 +147,9 @@ module.exports.autoGetFqdn = (req, res) => {
 }
 
 module.exports.autoUpdateFqdn = (req, res) => {
+    if (!ensureDatabaseConnection(res)) {
+        return;
+    }
     const incomingBody = req.body || {};
     const normalizedFqdn = normalizeFqdn(incomingBody.fqdn);
 
@@ -133,35 +170,45 @@ module.exports.autoUpdateFqdn = (req, res) => {
 // Url Controllers
 
 module.exports.addUrl = (req, res) => {
-    
+    if (!ensureDatabaseConnection(res)) {
+        return;
+    }
     Url.create(req.body)
         .then(newUrl=>res.json(newUrl))
         .catch(err=>res.status(400).json(err))
 }
 
 module.exports.getUrls = (req, res) => {
-    
+    if (!ensureDatabaseConnection(res)) {
+        return;
+    }
     Url.find()
         .then(urls=>res.json(urls))
         .catch(err=>res.status(400).json(err))
 }
 
 module.exports.getUrl = (req, res) => {
-    
+    if (!ensureDatabaseConnection(res)) {
+        return;
+    }
     Url.findOne({ _id: req.body._id })
         .then(oneUrl=>res.json(oneUrl))
         .catch(err=>res.status(400).json(err))
 }
 
 module.exports.deleteUrl = (req, res) => {
-    
+    if (!ensureDatabaseConnection(res)) {
+        return;
+    }
     Url.deleteOne({ _id: req.body._id })
         .then(result=>res.json({success:true}))
         .catch(err=>res.status(400).json(err))
 }
 
 module.exports.updateUrl = (req, res) => {
-    
+    if (!ensureDatabaseConnection(res)) {
+        return;
+    }
     Url.findOneAndUpdate(
         { _id: req.body._id },
         req.body,
@@ -171,14 +218,18 @@ module.exports.updateUrl = (req, res) => {
 }
 
 module.exports.autoGetUrl = (req, res) => {
-    
+    if (!ensureDatabaseConnection(res)) {
+        return;
+    }
     Url.findOne({ url: req.body.url })
         .then(oneUrl=>res.json(oneUrl))
         .catch(err=>res.status(400).json(err))
 }
 
 module.exports.autoUpdateUrl = (req, res) => {
-    
+    if (!ensureDatabaseConnection(res)) {
+        return;
+    }
     Url.findOneAndUpdate(
         { url: req.body.url },
         req.body,
@@ -188,13 +239,18 @@ module.exports.autoUpdateUrl = (req, res) => {
 }
 
 module.exports.autoDeleteUrl = (req, res) => {
-
+    if (!ensureDatabaseConnection(res)) {
+        return;
+    }
     Url.deleteOne({ url: req.body.url })
         .then(result=>res.json({success:true}))
         .catch(err=>res.status(400).json(err))
 }
 
 module.exports.getUrlList = async (req, res) => {
+    if (!ensureDatabaseConnection(res)) {
+        return;
+    }
     const { fqdnId } = req.body || {};
 
     if (!fqdnId) {
@@ -276,21 +332,27 @@ module.exports.getUrlList = async (req, res) => {
 // Log Controllers
 
 module.exports.addLog = (req, res) => {
-    
+    if (!ensureDatabaseConnection(res)) {
+        return;
+    }
     Log.create(req.body)
         .then(newLog=>res.json(newLog))
         .catch(err=>res.status(400).json(err))
 }
 
 module.exports.getLogs = (req, res) => {
-    
+    if (!ensureDatabaseConnection(res)) {
+        return;
+    }
     Log.find()
         .then(Logs=>res.json(Logs))
         .catch(err=>res.status(400).json(err))
 }
 
 module.exports.deleteLogs = (req, res) => {
-    
+    if (!ensureDatabaseConnection(res)) {
+        return;
+    }
     Log.deleteMany({scan: { $ne: "foo" }})
         .then(Logs=>res.json(Logs))
         .catch(err=>res.status(400).json(err))
@@ -331,53 +393,120 @@ module.exports.getHttpOnly = (req, res) => {
     });
 }
 
-module.exports.populateBurp = (req, res) => {
-    console.log(req.body)
-    const burpScan = {
-            urls: req.body,
-            scan_configurations: [{
-                type: "NamedConfiguration",
-                name: "Crawl and Audit - Fast"
-            }]
+const formatBurpError = (error) => {
+    if (!error) {
+        return 'Unknown error communicating with Burp API.';
     }
-    axios.post("http://127.0.0.1:1337/v0.1/scan", burpScan)
-        .then((response) => {
-            console.log('Response:', response.data);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-}
 
-module.exports.runBurpScanDefault = (req, res) => {
-    console.log(req.body.targetUrl)
-    const burpScan = {
-            urls: [req.body.targetUrl]
-    }
-    axios.post("http://127.0.0.1:1337/v0.1/scan", burpScan)
-        .then((response) => {
-            console.log('Response:', response.data);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-}
+    if (error.response) {
+        const status = error.response.status;
+        const statusText = error.response.statusText || 'Unknown status';
+        const details = typeof error.response.data === 'string'
+            ? error.response.data
+            : JSON.stringify(error.response.data);
 
-module.exports.runBurpScanDeep = (req, res) => {
-    console.log(req.body.targetUrl)
-    const burpScan = {
-            urls: [req.body.targetUrl],
-            scan_configurations: [{
-                type: "NamedConfiguration",
-                name: "Crawl and Audit - Deep"
-    }]
+        return `Burp API responded with status ${status} (${statusText}). Details: ${details}`;
     }
-    console.log(burpScan)
-    axios.post("http://127.0.0.1:1337/v0.1/scan", burpScan)
-        .then((response) => {
-            console.log('Response:', response.data);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
+
+    if (error.request) {
+        return 'Aucune réponse reçue de l\'API Burp. Vérifiez que le service est joignable sur http://127.0.0.1:1337.';
+    }
+
+    return error.message || 'Unknown error communicating with Burp API.';
+};
+
+module.exports.populateBurp = async (req, res) => {
+    const urls = Array.isArray(req.body) ? req.body.filter(Boolean) : [];
+
+    if (urls.length === 0) {
+        return res.status(400).json({
+            message: "Aucune URL valide n'a été fournie pour l'import dans Burp Suite.",
         });
-}
+    }
+
+    const burpScan = {
+        urls,
+        scan_configurations: [
+            {
+                type: "NamedConfiguration",
+                name: "Crawl and Audit - Fast",
+            },
+        ],
+    };
+
+    try {
+        const response = await axios.post("http://127.0.0.1:1337/v0.1/scan", burpScan);
+        return res.status(202).json({
+            message: "Import des URLs dans Burp Suite déclenché avec succès.",
+            burpResponse: response.data,
+        });
+    } catch (error) {
+        console.error('Error while populating Burp:', error);
+        return res.status(502).json({
+            message: "Impossible de communiquer avec l'API Burp Suite.",
+            details: formatBurpError(error),
+        });
+    }
+};
+
+module.exports.runBurpScanDefault = async (req, res) => {
+    const targetUrl = req.body && req.body.targetUrl;
+
+    if (typeof targetUrl !== 'string' || targetUrl.trim() === '') {
+        return res.status(400).json({
+            message: "L'URL cible du scan est requise.",
+        });
+    }
+
+    const burpScan = {
+        urls: [targetUrl.trim()],
+    };
+
+    try {
+        const response = await axios.post("http://127.0.0.1:1337/v0.1/scan", burpScan);
+        return res.status(202).json({
+            message: "Scan Burp par défaut déclenché.",
+            burpResponse: response.data,
+        });
+    } catch (error) {
+        console.error('Error while triggering Burp default scan:', error);
+        return res.status(502).json({
+            message: "Impossible de lancer le scan Burp par défaut.",
+            details: formatBurpError(error),
+        });
+    }
+};
+
+module.exports.runBurpScanDeep = async (req, res) => {
+    const targetUrl = req.body && req.body.targetUrl;
+
+    if (typeof targetUrl !== 'string' || targetUrl.trim() === '') {
+        return res.status(400).json({
+            message: "L'URL cible du scan est requise.",
+        });
+    }
+
+    const burpScan = {
+        urls: [targetUrl.trim()],
+        scan_configurations: [
+            {
+                type: "NamedConfiguration",
+                name: "Crawl and Audit - Deep",
+            },
+        ],
+    };
+
+    try {
+        const response = await axios.post("http://127.0.0.1:1337/v0.1/scan", burpScan);
+        return res.status(202).json({
+            message: "Scan Burp approfondi déclenché.",
+            burpResponse: response.data,
+        });
+    } catch (error) {
+        console.error('Error while triggering Burp deep scan:', error);
+        return res.status(502).json({
+            message: "Impossible de lancer le scan Burp approfondi.",
+            details: formatBurpError(error),
+        });
+    }
+};
