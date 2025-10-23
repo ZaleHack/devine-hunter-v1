@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import '../Component.css';
 import ResourceEntry from './SubComponents/ResourceEntry';
-import PortSwigger from './SubComponents/PortSwigger';
+import Portswigger from './SubComponents/Portswigger';
 
 
 
@@ -33,7 +33,7 @@ const Feature = props => {
         <div className="bg-secondary workTableStyle col-8">
         {
                 currentStep === 0 ?
-                <PortSwigger thisFqdn={props.thisFqdn} /> :
+                <Portswigger thisFqdn={props.thisFqdn} /> :
                 ''
             }
             {

@@ -15,7 +15,7 @@ import GoSpider from './SubComponents/GoSpider';
 import Hakrawler from './SubComponents/Hakrawler';
 import SubDomainizer from './SubComponents/SubDomainizer';
 import CloudRanges from './SubComponents/CloudRanges';
-import DnMasscan from './SubComponents/DnMasscan';
+import Dnmasscan from './SubComponents/Dnmasscan';
 import ShuffleDnsMassive from './SubComponents/ShuffleDnsMassive';
 import ShuffleDnsCustom from './SubComponents/ShuffleDnsCustom';
 import CustomWordlist from './SubComponents/CustomWordlist';
@@ -154,7 +154,7 @@ const Recon = props => {
             }
             {
                 currentStep === 16 ?
-                <DnMasscan thisFqdn={props.thisFqdn} /> :
+                <Dnmasscan thisFqdn={props.thisFqdn} /> :
                 ''
             }
             {
