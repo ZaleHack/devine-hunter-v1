@@ -120,7 +120,7 @@ const Enumeration = props => {
                 className="mt-3"
                 src={"/screenshots/" + selectedUrl.replace("//","__") + ".png"}
                 style={{width: '95%', height: '95%'}}
-                alt={`Capture d\'écran détaillée de ${selectedUrl}`}
+                alt={`Capture d'écran détaillée de ${selectedUrl}`}
             />
         </div>
         </div>
