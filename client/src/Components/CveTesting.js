@@ -36,7 +36,6 @@ const CveTesting = props => {
     const [impactfulVulnCountNetwork, setImpactfulVulnCountNetwork] = useState(0)
     const [impactfulVulnCountRs0n, setImpactfulVulnCountRs0n] = useState(0)
     const [impactfulVulnCountHeadless, setImpactfulVulnCountHeadless] = useState(0)
-    const [impactfulVulnFoundCount, setImpactfulVulnFoundCount] = useState(false)
     const [impactfulVulnFoundSSL, setImpactfulVulnFoundSSL] = useState(false)
     const [impactfulVulnFoundFile, setImpactfulVulnFoundFile] = useState(false)
     const [impactfulVulnFoundDNS, setImpactfulVulnFoundDNS] = useState(false)

@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import Modal from 'react-modal';
 import Dashboard from '../Components/Dashboard';
 import CveTesting from '../Components/CveTesting';
 import Recon from '../Components/Recon';
@@ -21,9 +20,9 @@ const ACTIVE_TAB = {
     4: Ops,
     5: Core,
     6: Creative,
-    7: ComingSoon,
+    7: Chaining,
     8: ComingSoon,
-    9: ComingSoon,
+    9: Resources,
     10: Logging,
 }
 
@@ -45,8 +44,6 @@ const Fqdn = props => {
         "Ressources",
         "Journalisation"
     ]
-
-    Modal.setAppElement('#root');
 
     const getActiveTab = () => {
         const Component = ACTIVE_TAB[activeTab]

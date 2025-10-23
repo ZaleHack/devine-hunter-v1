@@ -43,6 +43,10 @@ const Dashboard = props => {
         axios.post('/api/fqdn', {_id:props.thisFqdn._id})
         .then((res) => {
             if (res.data !== null) {
+                const fullVulnCount = res.data.vulns.reduce((count, vuln) => (
+                    vuln.info.severity !== "foo" ? count + 1 : count
+                ), 0);
+                setImpactfulVulnCountFull(fullVulnCount);
                 setImpactfulVulnFoundMisconfig(false)
                 setImpactfulVulnFoundSSL(false)
                 setImpactfulVulnFoundFile(false)

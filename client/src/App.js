@@ -7,13 +7,12 @@ import './App.css'
 import { TOOLKIT_BASE_URL } from './config';
 
 function App() {
-  useEffect(()=>setActiveTab(0), [App.index]);
+  useEffect(() => setActiveTab(0), []);
   const [fqdns, setFqdns] = useState([]);
   const [noFqdns, setNoFqdns] = useState(true);
   const [loaded, setLoaded] = useState(false);
   const [isAddFqdnModalOpen, setIsAddFqdnModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
-  const [refreshCounter, setRefreshCounter] = useState(0);
   const [fireStarter, setFireStarter] = useState(true);
   const [fireCloud, setFireCloud] = useState(false);
   const [fireScanner, setFireScanner] = useState(false);
@@ -24,7 +23,6 @@ function App() {
   const [scanComplete, setScanComplete] = useState(false)
   const [scanStepName, setScanStepName] = useState(false)
   const [scanSingleDomain, setScanSingleDomain] = useState(true);
-  const [selectedFqdns, setSelectedFqdns] = useState([]);
   const [coreModule, setCoreModule] = useState("N/a")
   const [scanDomain, setScanDomain] = useState("N/a")
   
@@ -76,7 +74,7 @@ function App() {
         }, 500);
       
     return () => clearInterval(interval);
-  }, [refreshCounter]);
+  }, []);
 
   // Debugging: Log the selected FQDN whenever the activeTab changes
   useEffect(() => {
@@ -245,14 +243,6 @@ function App() {
   }
 
   Modal.setAppElement('#root');
-
-  const deleteMultipleFqdn = () => {
-    // Logic to delete selected FQDNs
-    // Example: axios.post('your-api-endpoint', { fqdnsToDelete: selectedFqdns });
-    console.log('Deleting FQDNs:', selectedFqdns);
-    // After deletion, clear the selected FQDNs
-    setSelectedFqdns([]);
-  };
 
   const handleButtonClick = () => {
     const fileInput = document.getElementById('fileInput');

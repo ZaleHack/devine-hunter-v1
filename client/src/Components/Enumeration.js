@@ -1,13 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import '../Component.css';
 
 const Enumeration = props => {
-    const [loaded, setLoaded] = useState(false)
-    const [urls, setUrls] = useState(props.thisFqdn.recon.subdomains.httprobe)
-    const [selectedUrl, setSelectedUrl] = useState(props.thisFqdn.recon.subdomains.httprobe[0]  || "https://" + props.thisFqdn.fqdn)
-    const [finalSelectedUrl, setFinalSelectedUrl] = useState(props.thisFqdn.recon.subdomains.httprobe[0]  || "https://" + props.thisFqdn.fqdn)
-    const [targetUrl, setTargetUrl] = useState(props.thisFqdn.recon.subdomains.httprobe[0] || "https://" + props.thisFqdn.fqdn)
+    const urls = props.thisFqdn.recon.subdomains.httprobe || [];
+    const [selectedUrl, setSelectedUrl] = useState(urls[0]  || "https://" + props.thisFqdn.fqdn)
+    const [targetUrl, setTargetUrl] = useState(urls[0] || "https://" + props.thisFqdn.fqdn)
     const [aRecords, setARecords] = useState([])
     const [cnameRecords, setCnameRecords] = useState([])
     const [nodeRecords, setNodeRecords] = useState([])
@@ -16,8 +14,13 @@ const Enumeration = props => {
         setARecords(props.thisFqdn.dns.arecord)
         setCnameRecords(props.thisFqdn.dns.cnamerecord)
         setNodeRecords(props.thisFqdn.dns.node)
-        setLoaded(true)
-    }, [props.index]);
+    }, [props.thisFqdn.dns.arecord, props.thisFqdn.dns.cnamerecord, props.thisFqdn.dns.node]);
+
+    useEffect(() => {
+        const initialUrl = (props.thisFqdn.recon.subdomains.httprobe && props.thisFqdn.recon.subdomains.httprobe[0]) || "https://" + props.thisFqdn.fqdn;
+        setSelectedUrl(initialUrl);
+        setTargetUrl(initialUrl);
+    }, [props.thisFqdn]);
 
     const populateBurp = () => {
         axios.post('/api/populate-burp', urls)
@@ -53,22 +56,6 @@ const Enumeration = props => {
         setTargetUrl(selectedUrl)
     }
 
-    async function getFinalRedirectUrl(initialUrl) {
-        try {
-          const response = await axios.get(initialUrl, {
-            maxRedirects: 10,
-            validateStatus: (status) => status >= 200 && status < 400,
-          });
-          if (initialUrl !== response.request.res.responseUrl) {
-            
-          }
-          return response.request.res.responseUrl;
-        } catch (error) {
-          console.error('Error:', error);
-          throw error;
-        }
-    }
-
     const handleSelectUrl = (e, i) => {
         setSelectedUrl(urls[i]);
     }
@@ -79,7 +66,7 @@ const Enumeration = props => {
             <div className="container-fluid">
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <button onClick={populateBurp} style={{width: '135px'}} className="nav-link btn btn-elevated text-light">Remplir Burp</button>
-                    <h5 className="toolbar-text ml-4 pt-0 mb-0">URL cible : &nbsp;&nbsp;<a className="toolbar-link" target="_blank" rel="noreferrer" href="">{targetUrl}</a></h5>
+                    <h5 className="toolbar-text ml-4 pt-0 mb-0">URL cible : &nbsp;&nbsp;<a className="toolbar-link" target="_blank" rel="noreferrer" href={targetUrl}>{targetUrl}</a></h5>
                     <button onClick={runDefaultScan} style={{width: '135px'}} className="nav-link btn btn-elevated text-light ml-5">Analyse par défaut</button>
                     <button onClick={runDeepScan} style={{width: '135px'}} className="nav-link btn btn-outline-light ml-2">Analyse approfondie</button>
                 </div>
@@ -91,9 +78,8 @@ const Enumeration = props => {
             <ul style={{listStyleType:"none", padding:"0", margin:"0"}}>
             {
                 urls.map((url, i) => { return (
-                    <div>
+                    <div key={url}>
                         <li
-                            key={i}
                             onClick={(e) => handleSelectUrl(e, i)}
                             style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
                         >
@@ -102,6 +88,7 @@ const Enumeration = props => {
                             className="mt-3"
                             src={"/screenshots/" + url.replace("//", "__") + ".png"}
                             style={{ width: '10%', height: '10%' }}
+                            alt={`Capture d'écran de ${url}`}
                             />
                         </li>
                     </div>
@@ -129,7 +116,12 @@ const Enumeration = props => {
                     )})
             }
             </ul>
-            <img className="mt-3" src={"/screenshots/" + selectedUrl.replace("//","__") + ".png"} style={{width: '95%', height: '95%'}}/>
+            <img
+                className="mt-3"
+                src={"/screenshots/" + selectedUrl.replace("//","__") + ".png"}
+                style={{width: '95%', height: '95%'}}
+                alt={`Capture d\'écran détaillée de ${selectedUrl}`}
+            />
         </div>
         </div>
         </div>

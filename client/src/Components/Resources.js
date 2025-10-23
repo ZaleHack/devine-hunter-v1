@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
 import '../Component.css';
+import React, { useState } from 'react';
 import ResourceEntry from './SubComponents/ResourceEntry';
 import Portswigger from './SubComponents/Portswigger';
 

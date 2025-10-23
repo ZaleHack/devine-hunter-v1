@@ -1,22 +1,11 @@
-import axios from 'axios';import React, {useState, useEffect} from 'react';
-
-import toast, { Toaster } from 'react-hot-toast';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const NucleiScans = props => {
-    const [formCompleted, setFormCompleted] = useState(false);
     const [vulnList, setVulnList] = useState([]);
-    const [loaded, setLoaded] = useState(false);
     const [currentVuln, setCurrentVuln] = useState(0);
 
-
-
-    const notify = e => {
-        navigator.clipboard.writeText(e.target.innerText)
-        toast(`"${e.target.innerText}" copié dans le presse-papiers`)
-    }
-
     useEffect(()=>{
-        setFormCompleted(false);
         axios.post('/api/fqdn', {_id:props.thisFqdn._id})
             .then(res=>{
                 if (res.data !== null){
@@ -24,22 +13,10 @@ const NucleiScans = props => {
                     const tempArr = res.data.vulnsSSL;
                     if (tempArr.length > 0){
                         setVulnList(res.data.vulnsSSL)
-                        setFormCompleted(true);
                     }
                 }
-                setLoaded(true);
             })
-    }, [props])
-
-    const deleteVuln = () => {
-        const tempFqdn = props.thisFqdn;
-        tempFqdn.recon.subdomains.sublist3r = [];
-        axios.post('/api/fqdn/update', tempFqdn)
-            .then(res=>{
-                setVulnList(res.data.recon.subdomains.sublist3r)
-                setFormCompleted(false);
-            })
-    }
+    }, [props.thisFqdn._id])
 
     return (
         <div className="container mt-3 pl-0 ml-0">
