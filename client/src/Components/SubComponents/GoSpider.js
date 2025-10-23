@@ -19,7 +19,7 @@ const GoSpider = props => {
 
     useEffect(()=>{
         setFormCompleted(false);
-        axios.post('http://localhost:8000/api/fqdn', {_id:props.thisFqdn._id})
+        axios.post('/api/fqdn', {_id:props.thisFqdn._id})
             .then(res=>{
                 if (res.data !== null){
                     const tempArr = res.data.recon.subdomains.gospider;
@@ -37,7 +37,7 @@ const GoSpider = props => {
     const addGoSpiderData = (list) => {
         const tempFqdn = props.thisFqdn;
         tempFqdn.recon.subdomains.gospider = list.split("\n");
-        axios.post('http://localhost:8000/api/fqdn/update', tempFqdn)
+        axios.post('/api/fqdn/update', tempFqdn)
             .then(res=>{
                 setSubdomainList(res.data.recon.subdomains.gospider)
                 setFormCompleted(true);
@@ -48,7 +48,7 @@ const GoSpider = props => {
     const deleteGoSpiderData = () => {
         const tempFqdn = props.thisFqdn;
         tempFqdn.recon.subdomains.gospider = [];
-        axios.post('http://localhost:8000/api/fqdn/update', tempFqdn)
+        axios.post('/api/fqdn/update', tempFqdn)
             .then(res=>{
                 setSubdomainList(res.data.recon.subdomains.gospider)
                 setFormCompleted(false);

@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import axios from 'axios';import Modal from 'react-modal';
+import axios from 'axios';
+import Modal from 'react-modal';
 import AddFqdnModal from './Components/Modals/AddFqdnModal';
 import Fqdn from './Views/Fqdn';
 import './App.css'
+import { TOOLKIT_BASE_URL } from './config';
 
 function App() {
   useEffect(()=>setActiveTab(0), [App.index]);
@@ -42,7 +44,7 @@ function App() {
   useEffect(()=>{
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/status');
+        const response = await fetch(`${TOOLKIT_BASE_URL}/status`);
         const result = await response.json();
         setScanRunning(result['scan_running']);
         setScanStep(result['scan_step']);
@@ -57,7 +59,7 @@ function App() {
 
     fetchData()
 
-    axios.post('http://localhost:8000/api/fqdn/all', {})
+    axios.post('/api/fqdn/all', {})
       .then(res=>{
         console.log(res.data);
         setFqdns(res.data);
@@ -109,14 +111,14 @@ function App() {
             );
             if (existingIndex === -1) {
               setFqdns((prevData) => [...prevData, importedFqdn]);
-              axios.post("http://localhost:8000/api/fqdn/new",importedFqdn)
+              axios.post("/api/fqdn/new",importedFqdn)
             } else {
               setFqdns((prevData) => {
                 const newData = [...prevData];
                 newData[existingIndex] = importedFqdn;
                 return newData;
               });
-              axios.post("http://localhost:8000/api/fqdn/update",importedFqdn)
+              axios.post("/api/fqdn/update",importedFqdn)
             }
           });
         } catch (error) {
@@ -130,7 +132,7 @@ function App() {
   const deleteFqdn = () => {
     const fqdnToDelete = fqdns[activeTab];
   
-    axios.post('http://localhost:8000/api/fqdn/delete', fqdnToDelete)
+    axios.post('/api/fqdn/delete', fqdnToDelete)
       .then(res => {
         // Remove the deleted FQDN from the state
         const updatedFqdns = fqdns.filter((_, index) => index !== activeTab);
@@ -162,7 +164,7 @@ function App() {
         scanSingleDomain: scanSingleDomain,
         domainCount: fqdns.length
       };
-      axios.post('http://localhost:5000/wildfire', payload)
+      axios.post(`${TOOLKIT_BASE_URL}/wildfire`, payload)
       .then(res => {
         setScanRunning(true);
         console.log("Wildfire Running Against All Domains...");
@@ -177,7 +179,7 @@ function App() {
         scanSingleDomain: scanSingleDomain,
         domainCount: 1
       };
-      axios.post('http://localhost:5000/wildfire', payload)
+      axios.post(`${TOOLKIT_BASE_URL}/wildfire`, payload)
       .then(res => {
         setScanRunning(true);
         console.log("Wildfire Running Against Single Domain...");
@@ -255,7 +257,7 @@ function App() {
   };
 
   const handleCollectScreenshotsButton = () => {
-    axios.post('http://localhost:5000/collect_sceenshots',{})
+    axios.post(`${TOOLKIT_BASE_URL}/collect_sceenshots`,{})
       .then(res => {
         console.log("Collecting Screenshots...");
       })
