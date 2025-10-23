@@ -13,7 +13,8 @@ const Chaining = props => {
     }, [props.thisFqdn._id, props.thisFqdn.targetUrls]);
 
     useEffect(() => {
-        const targetUrl = urls[activeEndpointTab];
+        const targetUrlList = props.thisFqdn.targetUrls || [];
+        const targetUrl = targetUrlList[activeEndpointTab];
         if (!targetUrl) {
             setUrlData({ endpoints: [] });
             return;
