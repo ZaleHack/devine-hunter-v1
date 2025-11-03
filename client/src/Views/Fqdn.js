@@ -10,6 +10,7 @@ import Logging from '../Components/Logging';
 import Resources from '../Components/Resources';
 import Creative from '../Components/Creative';
 import ComingSoon from '../Components/ComingSoon';
+import FraudManagement from '../Components/FraudManagement';
 
 
 const ACTIVE_TAB = {
@@ -24,6 +25,7 @@ const ACTIVE_TAB = {
     8: ComingSoon,
     9: Resources,
     10: Logging,
+    11: FraudManagement,
 }
 
 const Fqdn = props => {
@@ -42,7 +44,8 @@ const Fqdn = props => {
         "Chaînage",
         "Rapport",
         "Ressources",
-        "Journalisation"
+        "Journalisation",
+        "Gestion des fraudes"
     ]
 
     const getActiveTab = () => {

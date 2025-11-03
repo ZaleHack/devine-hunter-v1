@@ -3,6 +3,7 @@ const { Fqdn } = require("../models/fqdn.model");
 const { Url } = require("../models/url.model");
 const { Cve } = require("../models/cve.model");
 const { Log } = require("../models/log.model");
+const { CdrRealtime } = require("../models/cdrRealtime.model");
 const { normalizeFqdn, buildFqdnQuery } = require("../utils/fqdn");
 const util = require('util');
 const exec = require('child_process').exec;
@@ -22,6 +23,134 @@ const ensureDatabaseConnection = (res) => {
     });
 
     return false;
+};
+
+const normalizeIdentifier = (value) => {
+    if (value === null || value === undefined) {
+        return null;
+    }
+
+    const stringValue = `${value}`.trim();
+    return stringValue || null;
+};
+
+const normalizeDateInput = (value) => {
+    if (value === null || value === undefined) {
+        return null;
+    }
+
+    if (value instanceof Date) {
+        return value.toISOString().slice(0, 10);
+    }
+
+    const raw = `${value}`.trim();
+
+    if (!raw) {
+        return null;
+    }
+
+    const sanitized = raw.replace(/[/.]/g, "-");
+
+    if (/^\d{4}-\d{1,2}-\d{1,2}$/.test(sanitized)) {
+        const [year, month, day] = sanitized.split('-');
+        return `${year.padStart(4, '0')}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    }
+
+    if (/^\d{8}$/.test(raw)) {
+        return `${raw.slice(0, 4)}-${raw.slice(4, 6)}-${raw.slice(6, 8)}`;
+    }
+
+    return null;
+};
+
+const normalizeTimeInput = (value) => {
+    if (value === null || value === undefined) {
+        return null;
+    }
+
+    if (value instanceof Date) {
+        return value.toISOString().slice(11, 19);
+    }
+
+    const raw = `${value}`.trim();
+
+    if (!raw) {
+        return null;
+    }
+
+    if (/^\d{2}:\d{2}:\d{2}$/.test(raw)) {
+        return raw;
+    }
+
+    if (/^\d{2}:\d{2}$/.test(raw)) {
+        const [hours, minutes] = raw.split(':');
+        return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:00`;
+    }
+
+    if (/^\d{6}$/.test(raw)) {
+        return `${raw.slice(0, 2)}:${raw.slice(2, 4)}:${raw.slice(4, 6)}`;
+    }
+
+    if (/^\d{4}$/.test(raw)) {
+        return `${raw.slice(0, 2)}:${raw.slice(2, 4)}:00`;
+    }
+
+    return null;
+};
+
+const combineDateTime = (datePart, timePart) => {
+    if (!datePart && !timePart) {
+        return null;
+    }
+
+    const safeDate = datePart || '1970-01-01';
+    const safeTime = timePart || '00:00:00';
+    const isoString = `${safeDate}T${safeTime}Z`;
+    const parsed = new Date(isoString);
+
+    if (Number.isNaN(parsed.getTime())) {
+        return null;
+    }
+
+    return parsed;
+};
+
+const updateAggregation = (map, key, recordDate, recordTime, meta = {}) => {
+    if (!key) {
+        return;
+    }
+
+    const combined = combineDateTime(recordDate, recordTime);
+    let sortValue = Number.NEGATIVE_INFINITY;
+    let isoString = null;
+
+    if (combined) {
+        sortValue = combined.getTime();
+        isoString = combined.toISOString();
+    } else if (recordDate) {
+        const fallbackTimestamp = Date.parse(`${recordDate}T${recordTime || '00:00:00'}Z`);
+
+        if (!Number.isNaN(fallbackTimestamp)) {
+            sortValue = fallbackTimestamp;
+            isoString = new Date(fallbackTimestamp).toISOString();
+        }
+    }
+
+    if (sortValue === Number.NEGATIVE_INFINITY && !recordDate && !recordTime) {
+        return;
+    }
+
+    const currentEntry = map.get(key);
+
+    if (!currentEntry || sortValue > currentEntry.sortValue) {
+        map.set(key, {
+            ...meta,
+            sortValue,
+            lastUsage: isoString,
+            lastUsageDate: recordDate || null,
+            lastUsageTime: recordTime || null,
+        });
+    }
 };
 
 module.exports.ping = (req, res) => {
@@ -328,6 +457,170 @@ module.exports.getUrlList = async (req, res) => {
         return res.status(500).json({ message: "Unable to retrieve URL list" });
     }
 }
+
+// Fraud Management Controllers
+
+module.exports.searchFraudRecords = async (req, res) => {
+    if (!ensureDatabaseConnection(res)) {
+        return;
+    }
+
+    const body = req.body || {};
+    const numeroFilter = normalizeIdentifier(body.numero);
+    const imeiFilter = normalizeIdentifier(body.imei);
+
+    if (!numeroFilter && !imeiFilter) {
+        return res.status(400).json({
+            message: "Veuillez renseigner un numéro ou un IMEI pour lancer la recherche.",
+        });
+    }
+
+    const dateStart = body.dateStart !== undefined ? normalizeDateInput(body.dateStart) : null;
+    const dateEnd = body.dateEnd !== undefined ? normalizeDateInput(body.dateEnd) : null;
+    const timeStart = body.timeStart !== undefined ? normalizeTimeInput(body.timeStart) : null;
+    const timeEnd = body.timeEnd !== undefined ? normalizeTimeInput(body.timeEnd) : null;
+
+    if (body.dateStart && !dateStart) {
+        return res.status(400).json({ message: "Le format de la date de début est invalide." });
+    }
+
+    if (body.dateEnd && !dateEnd) {
+        return res.status(400).json({ message: "Le format de la date de fin est invalide." });
+    }
+
+    if (body.timeStart && !timeStart) {
+        return res.status(400).json({ message: "Le format de l'heure de début est invalide." });
+    }
+
+    if (body.timeEnd && !timeEnd) {
+        return res.status(400).json({ message: "Le format de l'heure de fin est invalide." });
+    }
+
+    const mongoQuery = {};
+
+    if (numeroFilter) {
+        mongoQuery.numero_appelant = numeroFilter;
+    }
+
+    if (imeiFilter) {
+        mongoQuery.imei_appelant = imeiFilter;
+    }
+
+    try {
+        const rawRecords = await CdrRealtime.find(mongoQuery).lean();
+
+        const filteredRecords = rawRecords.filter((record) => {
+            const recordDate = normalizeDateInput(record.date_debut_appel);
+            const recordTime = normalizeTimeInput(record.heure_debut_appel);
+
+            if (dateStart && (!recordDate || recordDate < dateStart)) {
+                return false;
+            }
+
+            if (dateEnd && (!recordDate || recordDate > dateEnd)) {
+                return false;
+            }
+
+            if (timeStart && (!recordTime || recordTime < timeStart)) {
+                return false;
+            }
+
+            if (timeEnd && (!recordTime || recordTime > timeEnd)) {
+                return false;
+            }
+
+            return true;
+        });
+
+        const mode = numeroFilter && imeiFilter ? 'combined' : numeroFilter ? 'numero' : 'imei';
+        const aggregates = new Map();
+
+        filteredRecords.forEach((record) => {
+            const recordDate = normalizeDateInput(record.date_debut_appel);
+            const recordTime = normalizeTimeInput(record.heure_debut_appel);
+
+            if (mode === 'numero') {
+                const imeiValue = normalizeIdentifier(record.imei_appelant);
+                updateAggregation(aggregates, imeiValue, recordDate, recordTime);
+            } else if (mode === 'imei') {
+                const numeroValue = normalizeIdentifier(record.numero_appelant);
+                updateAggregation(aggregates, numeroValue, recordDate, recordTime);
+            } else {
+                const numeroValue = normalizeIdentifier(record.numero_appelant);
+                const imeiValue = normalizeIdentifier(record.imei_appelant);
+
+                if (!numeroValue || !imeiValue) {
+                    return;
+                }
+
+                const compositeKey = `${numeroValue}:::${imeiValue}`;
+                updateAggregation(aggregates, compositeKey, recordDate, recordTime, {
+                    numero: numeroValue,
+                    imei: imeiValue,
+                });
+            }
+        });
+
+        const buildSortedResults = (mapper) => {
+            const entries = Array.from(aggregates.entries()).map(mapper);
+            entries.sort((a, b) => {
+                const aValue = typeof a.sortValue === 'number' ? a.sortValue : Number.NEGATIVE_INFINITY;
+                const bValue = typeof b.sortValue === 'number' ? b.sortValue : Number.NEGATIVE_INFINITY;
+                return bValue - aValue;
+            });
+
+            return entries.map(({ sortValue, ...rest }) => rest);
+        };
+
+        let results = [];
+
+        if (mode === 'numero') {
+            results = buildSortedResults(([imeiValue, data]) => ({
+                imei: imeiValue,
+                lastUsage: data.lastUsage,
+                lastUsageDate: data.lastUsageDate,
+                lastUsageTime: data.lastUsageTime,
+                sortValue: data.sortValue,
+            }));
+        } else if (mode === 'imei') {
+            results = buildSortedResults(([numeroValue, data]) => ({
+                numero: numeroValue,
+                lastUsage: data.lastUsage,
+                lastUsageDate: data.lastUsageDate,
+                lastUsageTime: data.lastUsageTime,
+                sortValue: data.sortValue,
+            }));
+        } else {
+            results = buildSortedResults(([, data]) => ({
+                numero: data.numero,
+                imei: data.imei,
+                lastUsage: data.lastUsage,
+                lastUsageDate: data.lastUsageDate,
+                lastUsageTime: data.lastUsageTime,
+                sortValue: data.sortValue,
+            }));
+        }
+
+        return res.json({
+            mode,
+            results,
+            filters: {
+                numero: numeroFilter,
+                imei: imeiFilter,
+                dateStart,
+                dateEnd,
+                timeStart,
+                timeEnd,
+            },
+            totalRecords: results.length,
+        });
+    } catch (error) {
+        console.error('Error while searching fraud records:', error);
+        return res.status(500).json({
+            message: "Une erreur est survenue lors de la recherche des enregistrements de fraude.",
+        });
+    }
+};
 
 // Log Controllers
 

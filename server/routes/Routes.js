@@ -32,4 +32,6 @@ module.exports = function(app){
     app.post('/api/log/new', Controller.addLog);
     app.post('/api/log/all', Controller.getLogs);
     app.post('/api/log/delete', Controller.deleteLogs);
+
+    app.post('/api/fraud/search', Controller.searchFraudRecords);
 }
